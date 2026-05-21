@@ -1,0 +1,47 @@
+@page "/dashboard"
+@layout MemberLayout
+@attribute [Authorize]
+@inject DemoAuthService Auth
+@inject NavigationManager Nav
+
+<div class="guest-page">
+    <div class="guest-page-wrapper">
+        <section id="hero">
+            <article class="hero-card">
+                <h1>Member Dashboard</h1>
+                <div class="hero-text">
+                    <p><span>Welcome, @userName.</span> You are signed in as <strong>@userRole</strong>.</p>
+                    <p>Dashboard content coming soon — training plans, session schedules, club news and more.</p>
+                </div>
+                <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                    <button class="cta" @onclick="Logout">Sign Out</button>
+                    <a href="@Nav.BaseUri" class="cta">← Back to Home</a>
+                </div>
+            </article>
+        </section>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthState { get; set; }
+
+    private string userName = string.Empty;
+    private string userRole = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthState is not null)
+        {
+            var state = await AuthState;
+            userName = state.User.Identity?.Name ?? "Member";
+            userRole = state.User.Claims
+                .FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value ?? "Member";
+        }
+    }
+
+    private void Logout()
+    {
+        Auth.Logout();
+        Nav.NavigateTo("member");
+    }
+}

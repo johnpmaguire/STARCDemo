@@ -1,0 +1,80 @@
+/* ── Page shell (mirrors Guest) ──────────────────────────── */
+.guest-page {
+    min-height: 100vh;
+    background: url('images/GuestPageBg.jpg') center center / cover no-repeat fixed;
+    position: relative;
+}
+
+.guest-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 0;
+}
+
+.guest-page-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    box-sizing: border-box;
+}
+
+section {
+    margin-top: 2.5rem;
+}
+
+#hero .hero-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 2rem;
+    padding: 2.5rem 2rem;
+    color: #fff;
+    text-align: center;
+    margin-top: 4rem;
+}
+
+#hero .hero-card h1 {
+    margin: 0 0 1rem 0;
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-weight: 700;
+}
+
+#hero .hero-text p {
+    margin: 0 0 0.75rem 0;
+    line-height: 1.65;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+}
+
+#hero .hero-text p span {
+    display: block;
+    font-weight: 700;
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+    color: #fff;
+    margin-bottom: 0.1rem;
+}
+
+.cta {
+    display: inline-block;
+    padding: 0.65rem 2rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.cta:hover {
+    background: #111;
+    color: #fff;
+}

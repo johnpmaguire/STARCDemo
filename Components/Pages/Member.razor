@@ -1,0 +1,120 @@
+@page "/member"
+@layout MemberLayout
+@attribute [AllowAnonymous]
+@inject DemoAuthService Auth
+@inject NavigationManager Nav
+
+<div class="guest-page">
+    <div class="guest-page-wrapper">
+
+        <section id="hero">
+            <article class="hero-card member-login-card">
+
+                <h1>Member Login</h1>
+
+                <div class="hero-text">
+                    <p><span>Welcome back.</span> Sign in to access your member dashboard, training plans and club resources.</p>
+                </div>
+
+                <!-- Quick-select demo tags -->
+                <div class="demo-tags">
+                    <span class="demo-label">Demo logins:</span>
+                    @foreach (var (username, role) in DemoAuthService.DemoUsers)
+                    {
+                        <button class="demo-tag demo-tag-@role.ToLower()"
+                                @onclick="() => SelectDemo(username)">
+                            @RoleIcon(role) @role
+                        </button>
+                    }
+                </div>
+
+                <!-- Login form -->
+                <div class="login-form">
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="login-error">@errorMessage</div>
+                    }
+
+                    <div class="form-field">
+                        <label for="username">Username</label>
+                        <input id="username"
+                               type="text"
+                               class="form-input"
+                               placeholder="Enter username"
+                               @bind="username"
+                               @bind:event="oninput"
+                               @onkeydown="HandleKeyDown" />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="password">Password</label>
+                        <input id="password"
+                               type="password"
+                               class="form-input"
+                               placeholder="Enter password"
+                               @bind="password"
+                               @bind:event="oninput"
+                               @onkeydown="HandleKeyDown" />
+                    </div>
+
+                    <button class="cta login-btn" @onclick="HandleLogin" disabled="@isLoading">
+                        @if (isLoading) { <span>Signing in…</span> } else { <span>Sign In →</span> }
+                    </button>
+                </div>
+
+                <div class="back-home" style="margin-top:1.5rem;">
+                    <a href="@Nav.BaseUri" class="cta">← Back to Home</a>
+                </div>
+
+            </article>
+        </section>
+
+    </div>
+</div>
+
+@code {
+    private string username = string.Empty;
+    private string password = string.Empty;
+    private string errorMessage = string.Empty;
+    private bool isLoading = false;
+
+    private void SelectDemo(string user)
+    {
+        username = user;
+        password = "demo";
+        errorMessage = string.Empty;
+    }
+
+    private async Task HandleLogin()
+    {
+        errorMessage = string.Empty;
+        isLoading = true;
+        StateHasChanged();
+
+        await Task.Delay(400); // brief pause so the loading state is visible
+
+        if (Auth.Login(username, password))
+        {
+            Nav.NavigateTo("dashboard");
+        }
+        else
+        {
+            errorMessage = "Invalid username or password. Try one of the demo tags above.";
+            isLoading = false;
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter") await HandleLogin();
+    }
+
+    private static string RoleIcon(string role) => role switch
+    {
+        "Member"    => "🏃",
+        "Leader"    => "🏅",
+        "Committee" => "📋",
+        "Admin"     => "🔑",
+        _           => "👤",
+    };
+}
