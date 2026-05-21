@@ -1,0 +1,25 @@
+﻿@page "/"
+@layout LandingLayout
+@inject NavigationManager Nav
+
+
+<div class="landing-center">
+    <h1 class="club-name">St Austell Running Club<br />(STARC)</h1>
+    <div class="split-button-wrap">
+        <button class="split-btn left" @onclick="GoGuest">
+            <span class="split-btn-main">Guest</span>
+            <span class="split-btn-sub">view</span>
+        </button>
+        <button class="split-btn" @onclick="GoMember">
+            <span class="split-btn-main">Member</span>
+            <span class="split-btn-sub">login</span>
+        </button>
+    </div>
+
+    <p class="tagline">Everyone welcome. No one left behind.</p>
+</div>
+
+@code {
+    void GoGuest() => Nav.NavigateTo("/guest");
+    void GoMember() => Nav.NavigateTo("/member");
+}

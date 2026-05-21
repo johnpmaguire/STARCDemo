@@ -1,0 +1,33 @@
+﻿/* Full-screen background image */
+.landing-layout-container {
+    position: relative;
+    height: 100vh;
+    background-image: url('/images/LandingPageBG.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Dark blur overlay — pointer-events: none so buttons remain clickable */
+.landing-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(3px);
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Content wrapper */
+.landing-layout-main {
+    position: relative;
+    pointer-events: all; /* re-enable clicks for content inside overlay */
+    width: 100%;
+    max-width: var(--max-width);
+    padding: var(--content-padding);
+}

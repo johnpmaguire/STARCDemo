@@ -1,0 +1,72 @@
+﻿﻿ /* Centered content column */
+.landing-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+    color: var(--text-light);
+}
+
+/* Club name */
+.club-name {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Tagline */
+.tagline {
+    font-size: 1.3rem;
+    font-weight: 300;
+    opacity: 0.9;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Split button */
+.split-button-wrap {
+    display: flex;
+    width: 320px;
+    height: 60px;
+    background: var(--starc-gradient);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.split-btn {
+    flex: 1;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    transition: background 0.2s ease;
+}
+
+.split-btn-main {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.split-btn-sub {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.75;
+    line-height: 1;
+}
+
+.split-btn.left {
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.split-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.split-btn:active {
+    background: rgba(255, 255, 255, 0.25);
+}
