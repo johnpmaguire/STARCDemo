@@ -1,0 +1,498 @@
+﻿/* ── Page shell ───────────────────────────────────────────── */
+.guest-page {
+    min-height: 100vh;
+    background: url('/images/GuestPageBg.jpg') center center / cover no-repeat fixed;
+    position: relative;
+}
+
+.guest-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 0;
+}
+
+/* ── Centred, max-width wrapper ───────────────────────────── */
+.guest-page-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0rem 1.25rem;
+    box-sizing: border-box;
+}
+
+/* ── Section shared styles ────────────────────────────────── */
+section {
+    margin-top: 2.5rem;
+}
+
+.section-title {
+    color: #fff;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 1.25rem 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Hero card ────────────────────────────────────────────── */
+#hero .hero-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 2rem;
+    padding: 2.5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+    color: #fff;
+    text-align: center;
+}
+
+    #hero .hero-card h1 {
+        grid-column: 1 / -1;
+        margin: 0;
+        font-size: clamp(1.75rem, 5vw, 2.75rem);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-align: center;
+    }
+
+#hero .hero-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    #hero .hero-badge img {
+        max-width: min(260px, 100%);
+        height: auto;
+    }
+
+#hero .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+    #hero .hero-text p {
+        margin: 0;
+        max-width: 52ch;
+        line-height: 1.65;
+        font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    }
+        /* Emphasis lead-in for each hero paragraph */
+        #hero .hero-text p span {
+            display: block;
+            font-weight: 700;
+            font-size: clamp(1rem, 2.8vw, 1.2rem);
+            letter-spacing: 0.01em;
+            color: #fff;
+            margin-bottom: 0.1rem;
+        }
+
+/* Hero tagline above CTA */
+.hero-tagline {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+    .hero-tagline p {
+        margin: 0;
+        font-style: italic;
+        font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+        opacity: 0.85;
+    }
+
+        .hero-tagline p:first-child {
+            font-weight: 700;
+            font-style: normal;
+            font-size: clamp(1rem, 2.8vw, 1.2rem);
+            opacity: 1;
+        }
+
+#hero .hero-text .cta {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.65rem 2rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+    #hero .hero-text .cta:hover {
+        background: #111;
+        color: #fff;
+    }
+
+/* ── Tablet / desktop: image left, text right ─────────────── */
+@media (min-width: 768px) {
+    #hero .hero-card {
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        text-align: left;
+    }
+
+        #hero .hero-card h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+
+    #hero .hero-badge {
+        grid-column: 1;
+        grid-row: 2;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+        #hero .hero-badge img {
+            max-width: 220px;
+        }
+
+    #hero .hero-text {
+        grid-column: 2;
+        grid-row: 2;
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+/* ── What We Do — Tab container ───────────────────────────── */
+.tab-container {
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+/* ── Tab bar ──────────────────────────────────────────────── */
+.tab-bar {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+    .tab-bar::-webkit-scrollbar {
+        display: none;
+    }
+
+.tab-btn {
+    flex: 1 1 auto;
+    min-width: max-content;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    white-space: nowrap;
+}
+
+    .tab-btn:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .tab-btn.active {
+        color: #fff;
+        border-bottom-color: #fff;
+        background: rgba(255, 255, 255, 0.10);
+    }
+
+/* ── Tab panel ────────────────────────────────────────────── */
+.tab-panel {
+    padding: 2rem;
+    display: grid;
+    transition: opacity 0.2s ease;
+}
+
+.tab-content {
+    grid-area: 1 / 1; /* all panels sit in the same grid cell */
+    color: #fff;
+    visibility: hidden;
+    opacity: 0;
+}
+
+    .tab-content h3 {
+        margin: 0 0 1rem 0;
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
+        font-weight: 700;
+    }
+
+    .tab-content p {
+        margin: 0 0 0.75rem 0;
+        line-height: 1.7;
+        font-size: clamp(0.9rem, 2vw, 1.05rem);
+        max-width: 65ch;
+    }
+
+.tab-active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tab-hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* ── Mobile adjustments ───────────────────────────────────── */
+@media (max-width: 600px) {
+    .guest-page-wrapper {
+        padding: 1.25rem 1rem;
+    }
+
+    #hero .hero-card {
+        border-radius: 1.5rem;
+        padding: 2rem 1.25rem;
+    }
+
+    #hero .hero-badge img {
+        max-width: 180px;
+    }
+
+    /* Stack tabs vertically — no overflow issues */
+    .tab-bar {
+        flex-direction: column;
+        border-bottom: none;
+        overflow-x: unset;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: left;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+        padding: 0.9rem 1.25rem;
+        font-size: 0.95rem;
+        white-space: normal;
+    }
+
+        .tab-btn:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .tab-btn.active {
+            border-left-color: #fff;
+            border-bottom-color: transparent;
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+    .tab-panel {
+        padding: 1.5rem 1.25rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+    }
+}
+
+/* ── Progressive reveal animation ────────────────────────── */
+.reveal-section {
+    animation: revealFade 0.5s ease both;
+}
+
+@keyframes revealFade {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tab-visible {
+    opacity: 1;
+}
+
+.tab-fading {
+    opacity: 0;
+}
+
+/* ── Leader card grid (shared) ────────────────────────────── */
+.leader-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+/* ── Option A: Flip cards ─────────────────────────────────── */
+.flip-card {
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 1.25rem;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #fff;
+    text-align: center;
+}
+
+.flip-card-front img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.4);
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+    justify-content: center;
+}
+
+/* ── Option B: Modal cards ────────────────────────────────── */
+.leader-card {
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 1.25rem;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+    .leader-card:hover {
+        background: rgba(255, 255, 255, 0.16);
+        transform: translateY(-3px);
+    }
+
+    .leader-card img {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255,255,255,0.4);
+    }
+
+.leader-more {
+    margin-top: auto;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    text-decoration: underline;
+}
+
+/* ── Leader modal ─────────────────────────────────────────── */
+.leader-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.leader-modal {
+    background: rgba(30, 20, 50, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    max-width: 480px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+    .leader-modal img {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255,255,255,0.4);
+    }
+
+.leader-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+    .leader-modal-close:hover {
+        opacity: 1;
+    }
+
+/* ── Shared leader text ───────────────────────────────────── */
+.leader-role {
+    font-size: 0.85rem;
+    opacity: 0.75;
+    font-style: italic;
+    margin: 0;
+}
+
+.leader-bio {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 40ch;
+}

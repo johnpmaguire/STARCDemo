@@ -1,0 +1,14 @@
+﻿.page {
+    width: 100%;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #111; /* Fallback color while image loads */
+}
+
+    .page > main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
