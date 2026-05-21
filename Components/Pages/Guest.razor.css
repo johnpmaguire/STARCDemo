@@ -1,7 +1,7 @@
 ﻿/* ── Page shell ───────────────────────────────────────────── */
 .guest-page {
     min-height: 100vh;
-    background: url('/images/GuestPageBg.jpg') center center / cover no-repeat fixed;
+    background: url('images/GuestPageBg.jpg') center center / cover no-repeat fixed;
     position: relative;
 }
 
