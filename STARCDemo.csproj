@@ -7,6 +7,10 @@
     <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(PublishingWithMSBuild)' == 'true'">
+    <BlazorBaseHref>/STARCDemo/</BlazorBaseHref>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include=".github\workflows\deploy.yml" />
   </ItemGroup>
