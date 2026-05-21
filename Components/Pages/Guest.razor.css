@@ -496,3 +496,26 @@ section {
     margin: 0;
     max-width: 40ch;
 }
+
+/* ── Back to home CTA ───────────────────────────────────────── */
+.back-home {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 0 3rem;
+}
+
+.back-home .cta {
+    display: inline-block;
+    padding: 0.65rem 2rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+    .back-home .cta:hover {
+        background: #111;
+        color: #fff;
+    }
