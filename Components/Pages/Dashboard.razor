@@ -1,47 +1,62 @@
-@page "/dashboard"
+﻿@page "/dashboard"
 @layout MemberLayout
 @attribute [Authorize]
-@inject DemoAuthService Auth
-@inject NavigationManager Nav
 
-<div class="guest-page">
-    <div class="guest-page-wrapper">
-        <section id="hero">
-            <article class="hero-card">
-                <h1>Member Dashboard</h1>
-                <div class="hero-text">
-                    <p><span>Welcome, @userName.</span> You are signed in as <strong>@userRole</strong>.</p>
-                    <p>Dashboard content coming soon — training plans, session schedules, club news and more.</p>
-                </div>
-                <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
-                    <button class="cta" @onclick="Logout">Sign Out</button>
-                    <a href="@Nav.BaseUri" class="cta">← Back to Home</a>
-                </div>
-            </article>
+<div class="member-page">
+    @if (member is null)
+    {
+        <p class="member-loading">Loading...</p>
+    }
+    else
+    {
+        <section class="dash-welcome">
+            <div class="dash-welcome-text">
+                <h1>Welcome back, <span>@member.DisplayName</span> 👋</h1>
+                <p>Member since @member.MemberSince.ToString("MMMM yyyy")
+                   &nbsp;•&nbsp;
+                   @if (member.IsActive) { <span class="badge badge-active">Active</span> }
+                   else { <span class="badge badge-inactive">Lapsed</span> }
+                </p>
+            </div>
+            <img src="@member.ProfilePicUrl" alt="@member.DisplayName" class="dash-avatar" />
         </section>
-    </div>
+
+        <section class="dash-stats">
+            <div class="stat-card">
+                <span class="stat-value">@member.RaceResults.Count</span>
+                <span class="stat-label">Races recorded</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@(member.PB(RaceDistance.FiveK)?.OfficialFinishTime ?? "—")</span>
+                <span class="stat-label">5K PB</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@(member.PB(RaceDistance.TenK)?.OfficialFinishTime ?? "—")</span>
+                <span class="stat-label">10K PB</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@(member.EnglandAthleticsAffiliated ? "✅" : "—")</span>
+                <span class="stat-label">EA Affiliated</span>
+            </div>
+        </section>
+
+        <section class="dash-links">
+            <a href="profile"    class="dash-link-card">👤 <span>My Profile</span></a>
+            <a href="my-results" class="dash-link-card">🏅 <span>My Results</span></a>
+        </section>
+
+        <section class="dash-section">
+            <h2>Club Sessions</h2>
+            <div class="session-list">
+                <div class="session-card"><span class="session-day">Monday</span><span class="session-name">Social Run</span><span class="session-detail">7:00pm • Car park meetup</span></div>
+                <div class="session-card"><span class="session-day">Wednesday</span><span class="session-name">Club Night</span><span class="session-detail">6:30pm • All abilities</span></div>
+                <div class="session-card"><span class="session-day">Friday</span><span class="session-name">Intervals</span><span class="session-detail">6:00pm • Track session</span></div>
+                <div class="session-card"><span class="session-day">Sunday</span><span class="session-name">Long Run</span><span class="session-detail">8:30am • Various routes</span></div>
+            </div>
+        </section>
+    }
 </div>
 
 @code {
-    [CascadingParameter] private Task<AuthenticationState>? AuthState { get; set; }
-
-    private string userName = string.Empty;
-    private string userRole = string.Empty;
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (AuthState is not null)
-        {
-            var state = await AuthState;
-            userName = state.User.Identity?.Name ?? "Member";
-            userRole = state.User.Claims
-                .FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value ?? "Member";
-        }
-    }
-
-    private void Logout()
-    {
-        Auth.Logout();
-        Nav.NavigateTo("member");
-    }
+    [CascadingParameter] private ClubMember? member { get; set; }
 }

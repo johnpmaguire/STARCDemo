@@ -12,5 +12,5 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<DemoAuthService>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<DemoAuthService>());
-
+builder.Services.AddScoped<DemoMemberService>();
 await builder.Build().RunAsync();

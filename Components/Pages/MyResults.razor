@@ -1,0 +1,106 @@
+﻿@page "/my-results"
+@layout MemberLayout
+@attribute [Authorize]
+
+<div class="member-page">
+    @if (member is null) { <p class="member-loading">Loading...</p> }
+    else
+    {
+        <h1 class="page-title">My Results</h1>
+
+        @if (!member.RaceResults.Any())
+        {
+            <div class="profile-card"><p>No race results recorded yet. Get out there! 🏃</p></div>
+        }
+        else
+        {
+            <section class="dash-stats">
+                @foreach (var dist in Enum.GetValues<RaceDistance>())
+                {
+                    var pb = member.PB(dist);
+                    @if (pb is not null)
+                    {
+                        <div class="stat-card">
+                            <span class="stat-value">@pb.OfficialFinishTime</span>
+                            <span class="stat-label">@DistanceLabel(dist) PB 🏅</span>
+                        </div>
+                    }
+                }
+            </section>
+
+            <section class="profile-card results-table-card">
+                <h2>All Races</h2>
+                <div class="results-table-wrap">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th @onclick='() => SortBy("Date")'>Date @SortIcon("Date")</th>
+                                <th @onclick='() => SortBy("Race")'>Race @SortIcon("Race")</th>
+                                <th @onclick='() => SortBy("Distance")'>Distance @SortIcon("Distance")</th>
+                                <th @onclick='() => SortBy("Time")'>Time @SortIcon("Time")</th>
+                                <th>Category</th>
+                                <th>Overall</th>
+                                <th>Cat</th>
+                                <th>PB</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var r in SortedResults())
+                            {
+                                <tr class="@(r.IsPB ? "row-pb" : "")">
+                                    <td>@r.Date.ToString("dd MMM yyyy")</td>
+                                    <td>@r.RaceName</td>
+                                    <td>@DistanceLabel(r.Distance)</td>
+                                    <td>@r.OfficialFinishTime</td>
+                                    <td>@r.Category</td>
+                                    <td>@(r.PositionOverall?.ToString() ?? "—")</td>
+                                    <td>@(r.PositionInCategory?.ToString() ?? "—")</td>
+                                    <td>@(r.IsPB ? "🏅" : "")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        }
+    }
+</div>
+
+@code {
+    [CascadingParameter] private ClubMember? member { get; set; }
+
+    private string sortColumn = "Date";
+    private bool sortDesc = true;
+
+    private void SortBy(string col)
+    {
+        if (sortColumn == col) sortDesc = !sortDesc;
+        else { sortColumn = col; sortDesc = false; }
+    }
+
+    private string SortIcon(string col) =>
+        sortColumn != col ? "" : sortDesc ? "▼" : "▲";
+
+    private IEnumerable<RaceResult> SortedResults()
+    {
+        if (member is null) return [];
+        return sortColumn switch
+        {
+            "Race"     => sortDesc ? member.RaceResults.OrderByDescending(r => r.RaceName)   : member.RaceResults.OrderBy(r => r.RaceName),
+            "Distance" => sortDesc ? member.RaceResults.OrderByDescending(r => r.Distance)   : member.RaceResults.OrderBy(r => r.Distance),
+            "Time"     => sortDesc ? member.RaceResults.OrderByDescending(r => r.FinishTime) : member.RaceResults.OrderBy(r => r.FinishTime),
+            _          => sortDesc ? member.RaceResults.OrderByDescending(r => r.Date)       : member.RaceResults.OrderBy(r => r.Date),
+        };
+    }
+
+    private static string DistanceLabel(RaceDistance d) => d switch
+    {
+        RaceDistance.FiveK        => "5K",
+        RaceDistance.TenK         => "10K",
+        RaceDistance.TenMile      => "10 Mile",
+        RaceDistance.HalfMarathon => "Half Marathon",
+        RaceDistance.Marathon     => "Marathon",
+        RaceDistance.Ultra        => "Ultra",
+        _                         => "Other",
+    };
+}

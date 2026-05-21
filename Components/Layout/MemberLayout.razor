@@ -1,7 +1,73 @@
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
+@inject DemoAuthService Auth
+@inject DemoMemberService Members
+@inject NavigationManager Nav
+@using System.Security.Claims
 
-<div class="page">
-    <main>
-        @Body
-    </main>
-</div>
+<CascadingValue Value="currentMember">
+    <div class="member-shell">
+        <nav class="member-nav">
+            <div class="member-nav-brand">
+                <span class="member-nav-logo">🏃</span>
+                <span class="member-nav-title">STARC</span>
+            </div>
+            <div class="member-nav-links">
+                <a class="nav-link @IsActive("dashboard")"  href="dashboard">🏠 Dashboard</a>
+                <a class="nav-link @IsActive("profile")"    href="profile">👤 My Profile</a>
+                <a class="nav-link @IsActive("my-results")" href="my-results">🏅 My Results</a>
+                @if (currentMember is not null &&
+                     (currentMember.PrimaryRole == ClubRole.Leader   ||
+                      currentMember.PrimaryRole == ClubRole.Committee ||
+                      currentMember.PrimaryRole == ClubRole.Admin))
+                {
+                    <a class="nav-link @IsActive("sessions")" href="sessions">📋 Sessions</a>
+                }
+                @if (currentMember is not null &&
+                     (currentMember.PrimaryRole == ClubRole.Committee ||
+                      currentMember.PrimaryRole == ClubRole.Admin))
+                {
+                    <a class="nav-link @IsActive("members-list")" href="members-list">👥 Members</a>
+                }
+                @if (currentMember is not null && currentMember.PrimaryRole == ClubRole.Admin)
+                {
+                    <a class="nav-link @IsActive("admin")" href="admin">⚙️ Admin</a>
+                }
+            </div>
+            <div class="member-nav-user">
+                @if (currentMember is not null)
+                {
+                    <img src="@currentMember.ProfilePicUrl" alt="@currentMember.DisplayName" class="member-nav-avatar" />
+                    <div class="member-nav-info">
+                        <span class="member-nav-name">@currentMember.DisplayName</span>
+                        <span class="member-nav-role">@currentMember.PrimaryRole</span>
+                    </div>
+                }
+                <button class="nav-signout" @onclick="Logout" title="Sign Out">⏻</button>
+            </div>
+        </nav>
+        <main class="member-main">
+            @Body
+        </main>
+    </div>
+</CascadingValue>
+
+@code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthState { get; set; }
+    private ClubMember? currentMember;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (AuthState is not null)
+        {
+            var state = await AuthState;
+            var username = state.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (username is not null)
+                currentMember = Members.GetByUsername(username);
+        }
+    }
+
+    private void Logout() { Auth.Logout(); Nav.NavigateTo("member"); }
+
+    private string IsActive(string page) =>
+        Nav.Uri.Contains(page, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+}

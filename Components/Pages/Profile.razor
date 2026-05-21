@@ -1,0 +1,72 @@
+﻿@page "/profile"
+@layout MemberLayout
+@attribute [Authorize]
+
+<div class="member-page">
+    @if (member is null) { <p class="member-loading">Loading...</p> }
+    else
+    {
+        <h1 class="page-title">My Profile</h1>
+        <div class="profile-grid">
+
+            <div class="profile-card profile-identity">
+                <img src="@member.ProfilePicUrl" alt="@member.DisplayName" class="profile-pic" />
+                <h2>@member.FullName</h2>
+                @if (member.PreferredName != member.FirstName)
+                { <p class="profile-preferred">Known as <strong>@member.PreferredName</strong></p> }
+                <div class="profile-roles">
+                    @foreach (var role in member.Roles) { <span class="badge badge-role">@role</span> }
+                </div>
+                <p class="profile-bio">@member.Bio</p>
+            </div>
+
+            <div class="profile-card">
+                <h3>Membership</h3>
+                <dl class="profile-dl">
+                    <dt>Status</dt>
+                    <dd>@if (member.IsActive) { <span class="badge badge-active">Active</span> } else { <span class="badge badge-inactive">Lapsed</span> }</dd>
+                    <dt>Member Since</dt><dd>@member.MemberSince.ToString("d MMMM yyyy")</dd>
+                    <dt>EA Affiliated</dt><dd>@(member.EnglandAthleticsAffiliated ? "Yes" : "No")</dd>
+                    @if (member.EnglandAthleticsAffiliated && member.EnglandAthleticsNumber is not null)
+                    { <dt>EA Number</dt><dd>@member.EnglandAthleticsNumber</dd> }
+                </dl>
+            </div>
+
+            <div class="profile-card">
+                <h3>Running</h3>
+                <dl class="profile-dl">
+                    @if (member.PreferredPace is not null) { <dt>Preferred Pace</dt><dd>@member.PreferredPace</dd> }
+                    @if (member.DateOfBirth is not null)   { <dt>Date of Birth</dt><dd>@member.DateOfBirth.Value.ToString("d MMMM yyyy")</dd> }
+                    @if (member.Gender is not null)        { <dt>Gender</dt><dd>@member.Gender</dd> }
+                    <dt>5K PB</dt>          <dd>@(member.PB(RaceDistance.FiveK)?.OfficialFinishTime        ?? "Not recorded")</dd>
+                    <dt>10K PB</dt>         <dd>@(member.PB(RaceDistance.TenK)?.OfficialFinishTime         ?? "Not recorded")</dd>
+                    <dt>Half Marathon PB</dt><dd>@(member.PB(RaceDistance.HalfMarathon)?.OfficialFinishTime ?? "Not recorded")</dd>
+                    <dt>Marathon PB</dt>    <dd>@(member.PB(RaceDistance.Marathon)?.OfficialFinishTime      ?? "Not recorded")</dd>
+                </dl>
+            </div>
+
+            <div class="profile-card">
+                <h3>Contact</h3>
+                <dl class="profile-dl">
+                    <dt>Email</dt><dd><a href="mailto:@member.Email">@member.Email</a></dd>
+                    @if (member.PhoneNumber is not null) { <dt>Phone</dt><dd>@member.PhoneNumber</dd> }
+                </dl>
+            </div>
+
+            @if (member.EmergencyContactName is not null)
+            {
+                <div class="profile-card">
+                    <h3>Emergency Contact</h3>
+                    <dl class="profile-dl">
+                        <dt>Name</dt><dd>@member.EmergencyContactName</dd>
+                        @if (member.EmergencyContactPhone is not null) { <dt>Phone</dt><dd>@member.EmergencyContactPhone</dd> }
+                    </dl>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [CascadingParameter] private ClubMember? member { get; set; }
+}
