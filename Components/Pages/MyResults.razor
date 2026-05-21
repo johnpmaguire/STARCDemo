@@ -1,6 +1,9 @@
 ﻿@page "/my-results"
 @layout MemberLayout
 @attribute [Authorize]
+@inject DemoMemberService Members
+@inject AuthenticationStateProvider AuthProvider
+@using System.Security.Claims
 
 <div class="member-page">
     @if (member is null) { <p class="member-loading">Loading...</p> }
@@ -67,7 +70,15 @@
 </div>
 
 @code {
-    [CascadingParameter] private ClubMember? member { get; set; }
+    private ClubMember? member;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthProvider.GetAuthenticationStateAsync();
+        var username = state.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (username is not null)
+            member = Members.GetByUsername(username);
+    }
 
     private string sortColumn = "Date";
     private bool sortDesc = true;
@@ -104,3 +115,4 @@
         _                         => "Other",
     };
 }
+
