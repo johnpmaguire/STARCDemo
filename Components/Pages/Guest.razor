@@ -1,6 +1,7 @@
 ﻿@page "/guest"
 @layout GuestLayout
 @attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+@inject NavigationManager Nav
 
 <div class="guest-page">
     <div class="guest-page-wrapper">
@@ -65,31 +66,31 @@
 
                     <div class="tab-panel @(isTabFading ? "tab-fading" : "tab-visible")" role="tabpanel">
 
-    <div class="tab-content @(activeTab == "beginners" ? "tab-active" : "tab-hidden")">
-        <h3>0–5K Beginners</h3>
-        <p>Start your journey with support and confidence. Our beginner programme is designed for anyone — no experience needed, no judgement, just encouragement.</p>
-        <p>More detail coming soon — training schedule, what to expect on your first night, and how to sign up.</p>
-    </div>
+                        <div class="tab-content @(activeTab == "beginners" ? "tab-active" : "tab-hidden")">
+                            <h3>0–5K Beginners</h3>
+                            <p>Start your journey with support and confidence. Our beginner programme is designed for anyone — no experience needed, no judgement, just encouragement.</p>
+                            <p>More detail coming soon — training schedule, what to expect on your first night, and how to sign up.</p>
+                        </div>
 
-    <div class="tab-content @(activeTab == "club" ? "tab-active" : "tab-hidden")">
-        <h3>Club Nights</h3>
-        <p>Social runs for all abilities — relaxed and welcoming. Whether you are just finishing the 0–5K or you have been running for years, there is a group for you.</p>
-        <p>More detail coming soon — session times, routes, and what to bring.</p>
-    </div>
+                        <div class="tab-content @(activeTab == "club" ? "tab-active" : "tab-hidden")">
+                            <h3>Club Nights</h3>
+                            <p>Social runs for all abilities — relaxed and welcoming. Whether you are just finishing the 0–5K or you have been running for years, there is a group for you.</p>
+                            <p>More detail coming soon — session times, routes, and what to bring.</p>
+                        </div>
 
-    <div class="tab-content @(activeTab == "events" ? "tab-active" : "tab-hidden")">
-        <h3>Events &amp; Community</h3>
-        <p>Races, socials, volunteering, and being part of something bigger. We enter local and national events together and celebrate every finish line.</p>
-        <p>More detail coming soon — upcoming events, parkrun, and how to get involved.</p>
-    </div>
+                        <div class="tab-content @(activeTab == "events" ? "tab-active" : "tab-hidden")">
+                            <h3>Events &amp; Community</h3>
+                            <p>Races, socials, volunteering, and being part of something bigger. We enter local and national events together and celebrate every finish line.</p>
+                            <p>More detail coming soon — upcoming events, parkrun, and how to get involved.</p>
+                        </div>
 
-</div>
+                    </div>
                 </div>
             </section>
 
             <!-- Back to Home -->
             <div class="back-home">
-                <a href="/" class="cta">← Back to Home</a>
+                <a href="@Nav.BaseUri" class="cta">← Back to Home</a>
             </div>
 
             <!-- Meet the Team — Option A: Flip Cards -->
@@ -168,7 +169,7 @@
             <div class="back-home">
                 <a href="/" class="cta">← Back to Home</a>
             </div>
-       }
+        }
     </div>
 </div>
 
