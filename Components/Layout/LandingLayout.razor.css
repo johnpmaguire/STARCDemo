@@ -2,7 +2,7 @@
 .landing-layout-container {
     position: relative;
     height: 100vh;
-    background-image: url('/images/LandingPageBG.jpg');
+    background-image: url('../images/LandingPageBG.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -26,7 +26,7 @@
 /* Content wrapper */
 .landing-layout-main {
     position: relative;
-    pointer-events: all; /* re-enable clicks for content inside overlay */
+    pointer-events: all;
     width: 100%;
     max-width: var(--max-width);
     padding: var(--content-padding);
