@@ -52,20 +52,7 @@
 .session-name   { font-weight: 600; }
 .session-detail { font-size: 0.82rem; opacity: 0.6; }
 
-.profile-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
-.profile-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 1.25rem; padding: 1.5rem; }
-.profile-card h3 { margin: 0 0 1rem 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.6; }
-.profile-card h2 { margin: 0.5rem 0 0.25rem 0; font-size: 1.3rem; }
-.profile-identity { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; }
-.profile-pic { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,0.25); }
-.profile-preferred { font-size: 0.85rem; opacity: 0.65; margin: 0; }
-.profile-roles { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
-.profile-bio { font-size: 0.9rem; opacity: 0.75; line-height: 1.6; margin: 0.25rem 0 0 0; }
-.profile-dl { display: grid; grid-template-columns: auto 1fr; gap: 0.4rem 1rem; margin: 0; }
-.profile-dl dt { font-size: 0.8rem; opacity: 0.55; text-transform: uppercase; letter-spacing: 0.05em; align-self: center; }
-.profile-dl dd { margin: 0; font-size: 0.95rem; }
-.profile-dl a  { color: #7dd3fc; text-decoration: none; }
-.profile-dl a:hover { text-decoration: underline; }
+/* profile styles are scoped in Profile.razor.css */
 
 .results-table-card { grid-column: 1 / -1; }
 .results-table-card h2 { margin: 0 0 1rem 0; font-size: 1.1rem; font-weight: 600; opacity: 0.85; }
@@ -76,6 +63,13 @@
 .results-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
 .results-table tr:last-child td { border-bottom: none; }
 .row-pb td { background: rgba(255,215,0,0.07); }
+
+.dash-info-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 1.25rem; padding: 1.5rem; max-width: 640px; }
+.dash-info-card p { margin: 0 0 0.75rem 0; opacity: 0.85; line-height: 1.6; font-size: 0.95rem; }
+.dash-info-card p:last-child { margin-bottom: 0; }
+.dash-info-card a { color: #7dd3fc; }
+.dash-info-card a:hover { text-decoration: underline; }
+.dash-info-list { list-style: disc; padding-left: 1.4rem; margin: 0 0 0.75rem 0; display: flex; flex-direction: column; gap: 0.4rem; opacity: 0.8; font-size: 0.93rem; }
 
 @@media (max-width: 600px) {
     .member-main { padding: 1.25rem 1rem; }

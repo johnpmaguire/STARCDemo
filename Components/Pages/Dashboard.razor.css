@@ -1,80 +1,151 @@
-/* ── Page shell (mirrors Guest) ──────────────────────────── */
-.guest-page {
-    min-height: 100vh;
-    background: url('images/GuestPageBg.jpg') center center / cover no-repeat fixed;
-    position: relative;
+/* ── Welcome banner ──────────────────────────────────────── */
+.dash-welcome {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 1.25rem;
+    padding: 1.25rem 1.75rem;
 }
 
-.guest-page::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    background: rgba(0, 0, 0, 0.35);
-    z-index: 0;
+.dash-avatar {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.25);
+    flex-shrink: 0;
 }
 
-.guest-page-wrapper {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 1024px;
-    margin: 0 auto;
-    padding: 0 1.25rem;
-    box-sizing: border-box;
+.dash-welcome-text h1 {
+    margin: 0 0 0.3rem 0;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
 }
 
-section {
-    margin-top: 2.5rem;
+    .dash-welcome-text h1 span {
+        color: #7dd3fc;
+    }
+
+.dash-welcome-text p {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 0.9rem;
 }
 
-#hero .hero-card {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 2rem;
-    padding: 2.5rem 2rem;
-    color: #fff;
-    text-align: center;
-    margin-top: 4rem;
+/* ── Announcements ───────────────────────────────────────── */
+.announcement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
-#hero .hero-card h1 {
+.announcement-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+}
+
+.announcement-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.announcement-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.announcement-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.announcement-body {
+    font-size: 0.88rem;
+    opacity: 0.85;
+    line-height: 1.5;
+}
+
+.announcement-meta {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    margin-top: 0.15rem;
+}
+
+.announcement-warning {
+    background: rgba(255,180,50,0.1);
+    border-color: rgba(255,180,50,0.3);
+    color: #fcd34d;
+}
+
+.announcement-info {
+    background: rgba(100,180,255,0.1);
+    border-color: rgba(100,180,255,0.3);
+    color: #93c5fd;
+}
+
+.announcement-success {
+    background: rgba(50,200,100,0.1);
+    border-color: rgba(50,200,100,0.3);
+    color: #6ee7a0;
+}
+
+/* ── Section headings ────────────────────────────────────── */
+.dash-section h2 {
     margin: 0 0 1rem 0;
-    font-size: clamp(1.75rem, 5vw, 2.75rem);
-    font-weight: 700;
-}
-
-#hero .hero-text p {
-    margin: 0 0 0.75rem 0;
-    line-height: 1.65;
-    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-}
-
-#hero .hero-text p span {
-    display: block;
-    font-weight: 700;
-    font-size: clamp(1rem, 2.8vw, 1.2rem);
-    color: #fff;
-    margin-bottom: 0.1rem;
-}
-
-.cta {
-    display: inline-block;
-    padding: 0.65rem 2rem;
-    border-radius: 999px;
-    background: #fff;
-    color: #111;
+    font-size: 1.1rem;
     font-weight: 600;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    opacity: 0.85;
 }
 
-.cta:hover {
-    background: #111;
-    color: #fff;
+/* ── Sessions ────────────────────────────────────────────── */
+.session-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.session-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.session-day {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #7dd3fc;
+}
+
+.session-name {
+    font-weight: 600;
+}
+
+.session-detail {
+    font-size: 0.82rem;
+    opacity: 0.6;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .dash-welcome {
+        padding: 1rem 1.25rem;
+    }
+
+    .dash-avatar {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+    }
 }

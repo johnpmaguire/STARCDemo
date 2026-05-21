@@ -13,41 +13,54 @@
     else
     {
         <section class="dash-welcome">
+            <img src="@member.ProfilePicUrl" alt="@member.DisplayName" class="dash-avatar" />
             <div class="dash-welcome-text">
                 <h1>Welcome back, <span>@member.DisplayName</span> 👋</h1>
-                <p>Member since @member.MemberSince.ToString("MMMM yyyy")
-                   &nbsp;•&nbsp;
-                   @if (member.IsActive) { <span class="badge badge-active">Active</span> }
-                   else { <span class="badge badge-inactive">Lapsed</span> }
+                <p>
+                    Member since @member.MemberSince.ToString("MMMM yyyy")
+                    &nbsp;•&nbsp;
+                    @if (member.IsActive)
+                    {
+                        <span class="badge badge-active">Active</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge badge-inactive">Lapsed</span>
+                    }
                 </p>
             </div>
-            <img src="@member.ProfilePicUrl" alt="@member.DisplayName" class="dash-avatar" />
         </section>
-
-        <section class="dash-stats">
-            <div class="stat-card">
-                <span class="stat-value">@member.RaceResults.Count</span>
-                <span class="stat-label">Races recorded</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value">@(member.PB(RaceDistance.FiveK)?.OfficialFinishTime ?? "—")</span>
-                <span class="stat-label">5K PB</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value">@(member.PB(RaceDistance.TenK)?.OfficialFinishTime ?? "—")</span>
-                <span class="stat-label">10K PB</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-value">@(member.EnglandAthleticsAffiliated ? "✅" : "—")</span>
-                <span class="stat-label">EA Affiliated</span>
+        <section class="dash-section">
+            <h2>📢 Announcements</h2>
+            <div class="announcement-list">
+                <div class="announcement-card announcement-warning">
+                    <span class="announcement-icon">⚠️</span>
+                    <div class="announcement-content">
+                        <div class="announcement-title">Wednesday Session Cancelled</div>
+                        <div class="announcement-body">Club night on 21 May is cancelled due to severe weather. Stay safe — see you next week!</div>
+                        <div class="announcement-meta">Posted by Club Admin &nbsp;•&nbsp; 20 May 2025</div>
+                    </div>
+                </div>
+                <div class="announcement-card announcement-info">
+                    <span class="announcement-icon">📅</span>
+                    <div class="announcement-content">
+                        <div class="announcement-title">Club 5K Time Trial — Sunday 25 May</div>
+                        <div class="announcement-body">Monthly time trial at the usual course. Meet at the car park at 8:15am. All abilities welcome.</div>
+                        <div class="announcement-meta">Posted by Club Admin &nbsp;•&nbsp; 18 May 2025</div>
+                    </div>
+                </div>
+                <div class="announcement-card announcement-success">
+                    <span class="announcement-icon">🏆</span>
+                    <div class="announcement-content">
+                        <div class="announcement-title">Great performances at the County 10K!</div>
+                        <div class="announcement-body">Congratulations to everyone who raced last weekend. Check the results board for details.</div>
+                        <div class="announcement-meta">Posted by Club Admin &nbsp;•&nbsp; 15 May 2025</div>
+                    </div>
+                </div>
             </div>
         </section>
-
-        <section class="dash-links">
-            <a href="profile"    class="dash-link-card">👤 <span>My Profile</span></a>
-            <a href="my-results" class="dash-link-card">🏅 <span>My Results</span></a>
-        </section>
-
+    
         <section class="dash-section">
             <h2>Club Sessions</h2>
             <div class="session-list">
@@ -55,6 +68,20 @@
                 <div class="session-card"><span class="session-day">Wednesday</span><span class="session-name">Club Night</span><span class="session-detail">6:30pm • All abilities</span></div>
                 <div class="session-card"><span class="session-day">Friday</span><span class="session-name">Intervals</span><span class="session-detail">6:00pm • Track session</span></div>
                 <div class="session-card"><span class="session-day">Sunday</span><span class="session-name">Long Run</span><span class="session-detail">8:30am • Various routes</span></div>
+            </div>
+        </section>
+
+        <section class="dash-section">
+            <h2>Become a Leader</h2>
+            <div class="dash-info-card">
+                <p>STARC is always looking for enthusiastic volunteers to help lead sessions. As a run leader you will:</p>
+                <ul class="dash-info-list">
+                    <li>Plan and lead group runs</li>
+                    <li>Support and encourage members of all abilities</li>
+                    <li>Complete a UK Athletics Run Leader course (funded by the club)</li>
+                    <li>Be part of a friendly and supportive leadership team</li>
+                </ul>
+                <p>Interested? Speak to any committee member or email <a href="mailto:leaders@starc.example.com">leaders@starc.example.com</a></p>
             </div>
         </section>
     }

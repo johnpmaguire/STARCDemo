@@ -6,72 +6,157 @@
 @using System.Security.Claims
 
 <div class="member-page">
-    @if (member is null) { <p class="member-loading">Loading...</p> }
+    @if (member is null)
+    {
+        <p class="member-loading">Loading...</p>
+    }
     else
     {
-        <h1 class="page-title">My Profile</h1>
-        <div class="profile-grid">
+        <div class="profile-layout">
 
-            <div class="profile-card profile-identity">
-                <img src="@member.ProfilePicUrl" alt="@member.DisplayName" class="profile-pic" />
-                <h2>@member.FullName</h2>
-                @if (member.PreferredName != member.FirstName)
-                { <p class="profile-preferred">Known as <strong>@member.PreferredName</strong></p> }
-                <div class="profile-roles">
-                    @foreach (var role in member.Roles) { <span class="badge badge-role">@role</span> }
+            <!-- Left column: title + photo card -->
+            <div class="profile-col">
+                <div class="profile-col-header">
+                    <h3>My Profile</h3>
                 </div>
-                <p class="profile-bio">@member.Bio</p>
+                <aside class="profile-photo-panel">
+                    <div class="profile-pic-wrap">
+                        <img src="@member.ProfilePicUrl" alt="@member.DisplayName" class="profile-pic-large" style="width:160px;height:160px;max-width:160px;border-radius:50%;object-fit:cover;flex-shrink:0;" />
+                    </div>
+                    <button class="profile-btn profile-btn-secondary" @onclick="ShowPhotoToast">
+                        Change Photo
+                    </button>
+                    <h2 class="profile-name">@member.FullName</h2>
+                    @if (member.PreferredName != member.FirstName)
+                    {
+                        <p class="profile-preferred">Known as <strong>@member.PreferredName</strong></p>
+                    }
+                    <div class="profile-roles">
+                        @foreach (var role in member.Roles)
+                        {
+                            <span class="badge badge-role">@role</span>
+                        }
+                    </div>
+                    <p class="profile-bio">@member.Bio</p>
+                    <div class="profile-status-row">
+                        @if (member.IsActive)
+                        { <span class="badge badge-active">Active member</span> }
+                        else
+                        { <span class="badge badge-inactive">Lapsed</span> }
+                    </div>
+                </aside>
             </div>
 
-            <div class="profile-card">
-                <h3>Membership</h3>
-                <dl class="profile-dl">
-                    <dt>Status</dt>
-                    <dd>@if (member.IsActive) { <span class="badge badge-active">Active</span> } else { <span class="badge badge-inactive">Lapsed</span> }</dd>
-                    <dt>Member Since</dt><dd>@member.MemberSince.ToString("d MMMM yyyy")</dd>
-                    <dt>EA Affiliated</dt><dd>@(member.EnglandAthleticsAffiliated ? "Yes" : "No")</dd>
-                    @if (member.EnglandAthleticsAffiliated && member.EnglandAthleticsNumber is not null)
-                    { <dt>EA Number</dt><dd>@member.EnglandAthleticsNumber</dd> }
-                </dl>
-            </div>
+            <!-- ── Right: data panel ─────────────────────────────── -->
+            <div class="profile-data-panel">
 
-            <div class="profile-card">
-                <h3>Running</h3>
-                <dl class="profile-dl">
-                    @if (member.PreferredPace is not null) { <dt>Preferred Pace</dt><dd>@member.PreferredPace</dd> }
-                    @if (member.DateOfBirth is not null)   { <dt>Date of Birth</dt><dd>@member.DateOfBirth.Value.ToString("d MMMM yyyy")</dd> }
-                    @if (member.Gender is not null)        { <dt>Gender</dt><dd>@member.Gender</dd> }
-                    <dt>5K PB</dt>          <dd>@(member.PB(RaceDistance.FiveK)?.OfficialFinishTime        ?? "Not recorded")</dd>
-                    <dt>10K PB</dt>         <dd>@(member.PB(RaceDistance.TenK)?.OfficialFinishTime         ?? "Not recorded")</dd>
-                    <dt>Half Marathon PB</dt><dd>@(member.PB(RaceDistance.HalfMarathon)?.OfficialFinishTime ?? "Not recorded")</dd>
-                    <dt>Marathon PB</dt>    <dd>@(member.PB(RaceDistance.Marathon)?.OfficialFinishTime      ?? "Not recorded")</dd>
-                </dl>
-            </div>
+                @if (toastMessage is not null)
+                {
+                    <div class="profile-toast">@toastMessage</div>
+                }
 
-            <div class="profile-card">
-                <h3>Contact</h3>
-                <dl class="profile-dl">
-                    <dt>Email</dt><dd><a href="mailto:@member.Email">@member.Email</a></dd>
-                    @if (member.PhoneNumber is not null) { <dt>Phone</dt><dd>@member.PhoneNumber</dd> }
-                </dl>
-            </div>
+                @if (!isEditing)
+                {
+                    <!-- View mode -->
+                    <div class="profile-data-header">
+                        <h3>Personal Details</h3>
+                        <button class="profile-btn profile-btn-primary" @onclick="StartEdit">
+                            ✏️ Edit Profile
+                        </button>
+                    </div>
 
-            @if (member.EmergencyContactName is not null)
-            {
-                <div class="profile-card">
-                    <h3>Emergency Contact</h3>
-                    <dl class="profile-dl">
-                        <dt>Name</dt><dd>@member.EmergencyContactName</dd>
-                        @if (member.EmergencyContactPhone is not null) { <dt>Phone</dt><dd>@member.EmergencyContactPhone</dd> }
-                    </dl>
-                </div>
-            }
+                    <div class="profile-card-flat">
+                        <dl class="profile-dl">
+                            <dt>First Name</dt>      <dd>@member.FirstName</dd>
+                            <dt>Last Name</dt>       <dd>@member.LastName</dd>
+                            <dt>Preferred Name</dt>  <dd>@(string.IsNullOrWhiteSpace(member.PreferredName) ? "—" : member.PreferredName)</dd>
+                            <dt>Email</dt>           <dd><a href="mailto:@member.Email">@member.Email</a></dd>
+                            <dt>Phone</dt>           <dd>@(member.PhoneNumber ?? "—")</dd>
+                            <dt>Preferred Pace</dt>  <dd>@(member.PreferredPace ?? "—")</dd>
+                        </dl>
+                    </div>
+
+                    <div class="profile-card-flat">
+                        <h4>Emergency Contact</h4>
+                        <dl class="profile-dl">
+                            <dt>Name</dt>   <dd>@(member.EmergencyContactName  ?? "—")</dd>
+                            <dt>Phone</dt>  <dd>@(member.EmergencyContactPhone ?? "—")</dd>
+                        </dl>
+                    </div>
+
+                    <div class="profile-card-flat">
+                        <h4>Membership</h4>
+                        <dl class="profile-dl">
+                            <dt>Member Since</dt>   <dd>@member.MemberSince.ToString("d MMMM yyyy")</dd>
+                            <dt>EA Affiliated</dt>  <dd>@(member.EnglandAthleticsAffiliated ? "Yes" : "No")</dd>
+                            @if (member.EnglandAthleticsAffiliated && member.EnglandAthleticsNumber is not null)
+                            {
+                                <dt>EA Number</dt>  <dd>@member.EnglandAthleticsNumber</dd>
+                            }
+                        </dl>
+                    </div>
+
+                    <div class="profile-card-flat">
+                        <h4>Personal Bests</h4>
+                        <dl class="profile-dl">
+                            <dt>5K</dt>            <dd>@(member.PB(RaceDistance.FiveK)?.OfficialFinishTime        ?? "Not recorded")</dd>
+                            <dt>10K</dt>           <dd>@(member.PB(RaceDistance.TenK)?.OfficialFinishTime         ?? "Not recorded")</dd>
+                            <dt>Half Marathon</dt> <dd>@(member.PB(RaceDistance.HalfMarathon)?.OfficialFinishTime ?? "Not recorded")</dd>
+                            <dt>Marathon</dt>      <dd>@(member.PB(RaceDistance.Marathon)?.OfficialFinishTime     ?? "Not recorded")</dd>
+                        </dl>
+                    </div>
+                }
+                else
+                {
+                    <!-- Edit mode -->
+                    <div class="profile-data-header">
+                        <h3>Edit Profile</h3>
+                        <div class="profile-edit-actions">
+                            <button class="profile-btn profile-btn-primary"   @onclick="SaveEdit">💾 Save</button>
+                            <button class="profile-btn profile-btn-secondary" @onclick="CancelEdit">✕ Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="profile-card-flat">
+                        <h4>Personal Details</h4>
+                        <div class="edit-grid">
+                            <label>First Name<input class="edit-input" style="@InputStyle" @bind="editFirstName" /></label>
+                            <label>Last Name<input class="edit-input" style="@InputStyle" @bind="editLastName" /></label>
+                            <label>Preferred Name<input class="edit-input" style="@InputStyle" @bind="editPreferredName" placeholder="Leave blank to use first name" /></label>
+                            <label>Email<input class="edit-input" style="@InputStyle" type="email" @bind="editEmail" /></label>
+                            <label>Phone<input class="edit-input" style="@InputStyle" type="tel" @bind="editPhone" placeholder="Optional" /></label>
+                            <label>Preferred Pace<input class="edit-input" style="@InputStyle" @bind="editPace" placeholder="e.g. 8:30 /km" /></label>
+                        </div>
+                    </div>
+
+                    <div class="profile-card-flat">
+                        <h4>Emergency Contact</h4>
+                        <div class="edit-grid">
+                            <label>Name<input class="edit-input" style="@InputStyle" @bind="editEmergencyName" placeholder="Optional" /></label>
+                            <label>Phone<input class="edit-input" style="@InputStyle" type="tel" @bind="editEmergencyPhone" placeholder="Optional" /></label>
+                        </div>
+                    </div>
+                }
+
+            </div>
         </div>
     }
 </div>
 
 @code {
     private ClubMember? member;
+    private bool isEditing = false;
+    private string? toastMessage;
+
+    // Edit fields
+    private string editFirstName     = "";
+    private string editLastName      = "";
+    private string editPreferredName = "";
+    private string editEmail         = "";
+    private string editPhone         = "";
+    private string editPace          = "";
+    private string editEmergencyName  = "";
+    private string editEmergencyPhone = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,6 +164,54 @@
         var username = state.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (username is not null)
             member = Members.GetByUsername(username);
+    }
+
+    private void StartEdit()
+    {
+        if (member is null) return;
+        editFirstName      = member.FirstName;
+        editLastName       = member.LastName;
+        editPreferredName  = member.PreferredName;
+        editEmail          = member.Email;
+        editPhone          = member.PhoneNumber ?? "";
+        editPace           = member.PreferredPace ?? "";
+        editEmergencyName  = member.EmergencyContactName ?? "";
+        editEmergencyPhone = member.EmergencyContactPhone ?? "";
+        isEditing = true;
+    }
+
+    private void SaveEdit()
+    {
+        if (member is null) return;
+        // In a real app this would persist — for demo we update the in-memory record
+        member = member with
+        {
+            FirstName             = editFirstName,
+            LastName              = editLastName,
+            PreferredName         = editPreferredName,
+            Email                 = editEmail,
+            PhoneNumber           = string.IsNullOrWhiteSpace(editPhone)           ? null : editPhone,
+            PreferredPace         = string.IsNullOrWhiteSpace(editPace)            ? null : editPace,
+            EmergencyContactName  = string.IsNullOrWhiteSpace(editEmergencyName)   ? null : editEmergencyName,
+            EmergencyContactPhone = string.IsNullOrWhiteSpace(editEmergencyPhone)  ? null : editEmergencyPhone,
+        };
+        isEditing = false;
+        ShowToast("✅ Profile updated");
+    }
+
+    private void CancelEdit() => isEditing = false;
+
+    private const string InputStyle = "background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.25);border-radius:0.5rem;color:#fff;padding:0.5rem 0.75rem;font-size:0.95rem;width:100%;box-sizing:border-box;outline:none;";
+
+    private void ShowPhotoToast() => ShowToast("📷 Photo upload coming soon");
+
+    private async void ShowToast(string message)
+    {
+        toastMessage = message;
+        StateHasChanged();
+        await Task.Delay(3000);
+        toastMessage = null;
+        StateHasChanged();
     }
 }
 

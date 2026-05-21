@@ -11,7 +11,7 @@ public class DemoMemberService
             FirstName:                  "Alex",
             LastName:                   "Member",
             PreferredName:              "Alex",
-            ProfilePicUrl:              "images/team/alex.jpg",
+            ProfilePicUrl: "images/team/james.png",
             Bio:                        "Completed the 0-5K programme last year and have not stopped running since.",
             IsProfilePublic:            false,
             Email:                      "alex.member@example.com",
@@ -39,7 +39,7 @@ public class DemoMemberService
             FirstName:                  "Sarah",
             LastName:                   "Connor",
             PreferredName:              "Sarah",
-            ProfilePicUrl:              "images/team/sarah.jpg",
+            ProfilePicUrl: "images/team/james.png",
             Bio:                        "10 years coaching, marathon finisher, loves a muddy trail.",
             IsProfilePublic:            true,
             Email:                      "sarah.connor@example.com",
@@ -67,7 +67,7 @@ public class DemoMemberService
             FirstName:                  "Priya",
             LastName:                   "Nair",
             PreferredName:              "Priya",
-            ProfilePicUrl:              "images/team/priya.jpg",
+            ProfilePicUrl: "images/team/james.png",
             Bio:                        "Organises all club events and races. Spreadsheet wizard.",
             IsProfilePublic:            true,
             Email:                      "priya.nair@example.com",
@@ -93,7 +93,7 @@ public class DemoMemberService
             FirstName:                  "James",
             LastName:                   "Murphy",
             PreferredName:              "James",
-            ProfilePicUrl:              "images/team/james.png",
+            ProfilePicUrl: "images/team/james.png",
             Bio:                        "Couch to 5K graduate turned coach. Your biggest cheerleader.",
             IsProfilePublic:            true,
             Email:                      "james.murphy@example.com",
@@ -150,3 +150,6 @@ public class DemoMemberService
     public string RoleMailto(ClubRole role, string subject = "") =>
         BuildMailtoLink(GetByRole(role), subject);
 }
+
+
+

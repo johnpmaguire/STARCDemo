@@ -1,0 +1,7 @@
+.member-login-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #0f1923;
+    color: #fff;
+}

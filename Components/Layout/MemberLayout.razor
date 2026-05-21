@@ -20,7 +20,7 @@
                       currentMember.PrimaryRole == ClubRole.Committee ||
                       currentMember.PrimaryRole == ClubRole.Admin))
                 {
-                    <a class="nav-link @IsActive("sessions")" href="sessions">📋 Sessions</a>
+                    <a class="nav-link @IsActive("leaders")" href="leaders">📋 Leaders</a>
                 }
                 @if (currentMember is not null &&
                      (currentMember.PrimaryRole == ClubRole.Committee ||

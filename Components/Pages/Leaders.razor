@@ -1,0 +1,45 @@
+@page "/leaders"
+@layout MemberLayout
+@attribute [Authorize]
+@inject DemoMemberService Members
+@inject AuthenticationStateProvider AuthProvider
+@using System.Security.Claims
+
+<div class="member-page">
+
+    <div class="leaders-header">
+        <h1 class="page-title">Leaders</h1>
+        <p class="leaders-subtitle">Run leaders, volunteers and session coordinators for STARC.</p>
+    </div>
+
+    <div class="leaders-section">
+        <h2 class="leaders-section-title">Run Leaders</h2>
+        <div class="leaders-grid">
+            <div class="leader-card">
+                <img src="images/team/james.png" alt="Leader" class="leader-avatar" style="width:72px;height:72px;max-width:72px;border-radius:50%;object-fit:cover;" />
+                <div class="leader-info">
+                    <h3 class="leader-name">Jamie Leader</h3>
+                    <span class="badge badge-role">Leader</span>
+                    <p class="leader-detail">Tuesday Evening Run &bull; Beginners Group</p>
+                </div>
+            </div>
+            <div class="leader-card">
+                <img src="images/team/james.png" alt="Leader" class="leader-avatar" style="width:72px;height:72px;max-width:72px;border-radius:50%;object-fit:cover;" />
+                <div class="leader-info">
+                    <h3 class="leader-name">Sam Leader</h3>
+                    <span class="badge badge-role">Leader</span>
+                    <p class="leader-detail">Thursday Evening Run &bull; Intermediate Group</p>
+                </div>
+            </div>
+            <div class="leader-card">
+                <img src="images/team/james.png" alt="Leader" class="leader-avatar" style="width:72px;height:72px;max-width:72px;border-radius:50%;object-fit:cover;" />
+                <div class="leader-info">
+                    <h3 class="leader-name">Chris Leader</h3>
+                    <span class="badge badge-role">Leader</span>
+                    <p class="leader-detail">Sunday Long Run &bull; All Abilities</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

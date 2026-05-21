@@ -1,0 +1,137 @@
+.leaders-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+    font-weight: 700;
+    margin: 0 0 0.4rem 0;
+}
+
+.leaders-subtitle {
+    margin: 0;
+    opacity: 0.6;
+    font-size: 0.95rem;
+}
+
+.leaders-section {
+    margin-bottom: 2rem;
+}
+
+.leaders-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    opacity: 0.55;
+    margin: 0 0 1rem 0;
+}
+
+.leaders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.leader-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.leader-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.leader-name {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.leader-detail {
+    margin: 0;
+    font-size: 0.83rem;
+    opacity: 0.6;
+}
+
+.leaders-info-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    max-width: 640px;
+}
+
+.leaders-info-card p {
+    margin: 0 0 0.75rem 0;
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+.leaders-list {
+    list-style: disc;
+    padding-left: 1.4rem;
+    margin: 0 0 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+.leaders-contact {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.leaders-contact a {
+    color: #7dd3fc;
+}
+
+.leaders-contact a:hover {
+    text-decoration: underline;
+}
+
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    max-width: 640px;
+}
+
+.leaders-info-card p {
+    margin: 0 0 0.75rem 0;
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+.leaders-list {
+    list-style: disc;
+    padding-left: 1.4rem;
+    margin: 0 0 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+.leaders-contact {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.leaders-contact a {
+    color: #7dd3fc;
+}
+
+.leaders-contact a:hover {
+    text-decoration: underline;
+}
