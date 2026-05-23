@@ -1,6 +1,7 @@
 ﻿/* ── Page shell ───────────────────────────────────────────── */
 .guest-page {
     min-height: 100vh;
+    min-height: 100dvh;
     background: url('images/GuestPageBg.jpg') center center / cover no-repeat scroll;
     position: relative;
 }
@@ -9,8 +10,6 @@
     content: '';
     position: absolute;
     inset: 0;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
     background: rgba(0, 0, 0, 0.35);
     z-index: 0;
 }
