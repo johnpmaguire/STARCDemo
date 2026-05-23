@@ -7,7 +7,7 @@
 
 .guest-page::before {
     content: '';
-    position: fixed;
+position: fixed;
     inset: 0;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
@@ -173,6 +173,10 @@ section {
         overflow: hidden;
     }
 
+        #hero .hero-text p {
+            max-width: 100%;
+            word-break: break-word;
+        }
         #hero .hero-text p {
             max-width: 100%;
             word-break: break-word;

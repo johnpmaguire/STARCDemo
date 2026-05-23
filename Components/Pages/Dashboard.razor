@@ -110,14 +110,15 @@
                             @if (!isAttending)
                             {
                                 <select class="session-group-select"
-                                        value="@_selectedGroups[day]"
-                                        @onchange="e => _selectedGroups[day] = Enum.Parse<RunGroup>(e.Value!.ToString()!)">
+                                        value="@(_selectedGroups[day]?.ToString() ?? "")"
+                                                @onchange="e => _selectedGroups[day] = string.IsNullOrEmpty(e.Value?.ToString()) ? null : Enum.Parse<RunGroup>(e.Value!.ToString()!)">
+                                    <option value="">— Select Group —</option>
                                     @foreach (var g in Enum.GetValues<RunGroup>())
                                     {
                                         <option value="@g">@g.DisplayName()</option>
                                     }
                                 </select>
-                                <button class="btn-attend" @onclick="() => MarkAttending(day)">I'm coming</button>
+                                <button class="btn-attend" @onclick="() => MarkAttending(day)" disabled="@(_selectedGroups[day] is null)">I'm coming</button>
                             }
                             else
                             {
@@ -162,9 +163,9 @@
 
     private ClubMember? member;
     private DateOnly _weekStart = AttendanceService.CurrentWeekStart();
-    private Dictionary<string, RunGroup> _selectedGroups =
-        new() { ["Monday"] = RunGroup.Progression, ["Wednesday"] = RunGroup.Progression,
-                ["Friday"] = RunGroup.Progression, ["Sunday"] = RunGroup.Progression };
+    private Dictionary<string, RunGroup?> _selectedGroups =
+        new() { ["Monday"] = null, ["Wednesday"] = null,
+                ["Friday"] = null, ["Sunday"] = null };
 
     protected override async Task OnInitializedAsync()
     {
@@ -177,7 +178,8 @@
     private void MarkAttending(string sessionDay)
     {
         if (member is null) return;
-        Attendance.MarkAttending(member.Id, member.DisplayName, sessionDay, _weekStart, _selectedGroups[sessionDay]);
+        if (_selectedGroups[sessionDay] is null) return;
+        Attendance.MarkAttending(member.Id, member.DisplayName, sessionDay, _weekStart, _selectedGroups[sessionDay]!.Value);
     }
 
     private void Withdraw(string sessionDay)
