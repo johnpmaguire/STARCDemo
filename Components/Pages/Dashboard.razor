@@ -3,7 +3,9 @@
 @attribute [Authorize]
 @inject DemoMemberService Members
 @inject AuthenticationStateProvider AuthProvider
+@inject AttendanceService Attendance
 @using System.Security.Claims
+@using STARCDemo.Models
 
 <div class="member-page">
     @if (member is null)
@@ -64,10 +66,71 @@
         <section class="dash-section">
             <h2>Club Sessions</h2>
             <div class="session-list">
-                <div class="session-card"><span class="session-day">Monday</span><span class="session-name">Social Run</span><span class="session-detail">7:00pm • Car park meetup</span></div>
-                <div class="session-card"><span class="session-day">Wednesday</span><span class="session-name">Club Night</span><span class="session-detail">6:30pm • All abilities</span></div>
-                <div class="session-card"><span class="session-day">Friday</span><span class="session-name">Intervals</span><span class="session-detail">6:00pm • Track session</span></div>
-                <div class="session-card"><span class="session-day">Sunday</span><span class="session-name">Long Run</span><span class="session-detail">8:30am • Various routes</span></div>
+                @foreach (var session in _sessions)
+                {
+                    var day = session.Day;
+                    var isAttending = Attendance.IsAttending(member.Id, day, _weekStart);
+                    var existing = Attendance.GetAttendance(member.Id, day, _weekStart);
+                    var count = Attendance.GetAttendeeCount(day, _weekStart);
+
+                    <div class="session-card @(isAttending ? "session-card-attending" : "")">
+                        <span class="session-day">@day</span>
+                        <span class="session-name">@session.Name</span>
+                        <span class="session-detail">@session.Detail</span>
+
+                        @{
+                            var groupLeader = isAttending && existing is not null
+                                ? Attendance.GetGroupLeader(day, _weekStart, existing.Group)
+                                : null;
+                        }
+                        <div class="session-card-leader @(groupLeader is not null ? "session-card-leader-set" : "session-card-leader-tbc")">
+                            <span>🏅</span>
+                            @if (groupLeader is not null)
+                            {
+                                <span>@groupLeader.LeaderName</span>
+                            }
+                            else if (isAttending)
+                            {
+                                <span>Leader TBC</span>
+                            }
+                            else
+                            {
+                                <span>Sign up to see your leader</span>
+                            }
+                        </div>
+
+                        @if (isAttending && existing is not null)
+                        {
+                            <div class="session-attendance-status">
+                                <span class="session-attending-badge">✓ Attending &ndash; @existing.Group.DisplayName()</span>
+                            </div>
+                        }
+
+                        <div class="session-attendance-controls">
+                            @if (!isAttending)
+                            {
+                                <select class="session-group-select"
+                                        value="@_selectedGroups[day]"
+                                        @onchange="e => _selectedGroups[day] = Enum.Parse<RunGroup>(e.Value!.ToString()!)">
+                                    @foreach (var g in Enum.GetValues<RunGroup>())
+                                    {
+                                        <option value="@g">@g.DisplayName()</option>
+                                    }
+                                </select>
+                                <button class="btn-attend" @onclick="() => MarkAttending(day)">I'm coming</button>
+                            }
+                            else
+                            {
+                                <button class="btn-withdraw" @onclick="() => Withdraw(day)">Withdraw</button>
+                            }
+                        </div>
+
+                        @if (count > 0)
+                        {
+                            <span class="session-count">@count @(count == 1 ? "member" : "members") signed up</span>
+                        }
+                    </div>
+                }
             </div>
         </section>
 
@@ -78,7 +141,6 @@
                 <ul class="dash-info-list">
                     <li>Plan and lead group runs</li>
                     <li>Support and encourage members of all abilities</li>
-                    <li>Complete a UK Athletics Run Leader course (funded by the club)</li>
                     <li>Be part of a friendly and supportive leadership team</li>
                 </ul>
                 <p>Interested? Speak to any committee member or email <a href="mailto:leaders@starc.example.com">leaders@starc.example.com</a></p>
@@ -88,7 +150,21 @@
 </div>
 
 @code {
+    private record ClubSession(string Day, string Name, string Detail);
+
+    private static readonly ClubSession[] _sessions =
+    [
+        new("Monday",    "Social Run", "7:00pm • Car park meetup"),
+        new("Wednesday", "Straight Run", "6:30pm • All abilities"),
+        new("Friday",    "Intervals",  "6:00pm • Track session"),
+        new("Sunday",    "Long Run",   "8:30am • Various routes"),
+    ];
+
     private ClubMember? member;
+    private DateOnly _weekStart = AttendanceService.CurrentWeekStart();
+    private Dictionary<string, RunGroup> _selectedGroups =
+        new() { ["Monday"] = RunGroup.Progression, ["Wednesday"] = RunGroup.Progression,
+                ["Friday"] = RunGroup.Progression, ["Sunday"] = RunGroup.Progression };
 
     protected override async Task OnInitializedAsync()
     {
@@ -96,6 +172,18 @@
         var username = state.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (username is not null)
             member = Members.GetByUsername(username);
+    }
+
+    private void MarkAttending(string sessionDay)
+    {
+        if (member is null) return;
+        Attendance.MarkAttending(member.Id, member.DisplayName, sessionDay, _weekStart, _selectedGroups[sessionDay]);
+    }
+
+    private void Withdraw(string sessionDay)
+    {
+        if (member is null) return;
+        Attendance.Withdraw(member.Id, sessionDay, _weekStart);
     }
 }
 

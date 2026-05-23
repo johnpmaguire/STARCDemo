@@ -27,13 +27,21 @@
 
                     <!-- Quick-select demo tags -->
                     <div class="demo-tags">
-                        <span class="demo-label">Demo logins:</span>
-                        @foreach (var (username, role) in DemoAuthService.DemoUsers)
+                        @foreach (var roleGroup in DemoAuthService.DemoUsers.GroupBy(u => u.Role).OrderBy(g => g.Key == "Admin" ? 99 : 0))
                         {
-                            <button class="demo-tag demo-tag-@role.ToLower()"
-                                    @onclick="() => SelectDemo(username)">
-                                @RoleIcon(role) @role
-                            </button>
+                            <div class="demo-tag-group">
+                                <span class="demo-label">@RoleIcon(roleGroup.Key) @roleGroup.Key</span>
+                                <div class="demo-tag-row">
+                                    @foreach (var (username, role, displayName) in roleGroup)
+                                    {
+                                        <button class="demo-tag demo-tag-@role.ToLower()"
+                                                title="@displayName"
+                                                @onclick="() => SelectDemo(username)">
+                                            @username
+                                        </button>
+                                    }
+                                </div>
+                            </div>
                         }
                     </div>
 

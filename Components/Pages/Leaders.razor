@@ -3,7 +3,9 @@
 @attribute [Authorize]
 @inject DemoMemberService Members
 @inject AuthenticationStateProvider AuthProvider
+@inject AttendanceService Attendance
 @using System.Security.Claims
+@using STARCDemo.Models
 
 <div class="member-page">
 
@@ -42,4 +44,128 @@
         </div>
     </div>
 
+    @if (_isLeaderOrAbove)
+    {
+        <div class="leaders-section">
+            <h2 class="leaders-section-title">Session Attendance &mdash; w/c @_weekStart.ToString("d MMM yyyy")</h2>
+
+            <div class="attendance-session-tabs">
+                @foreach (var session in _sessions)
+                {
+                    <button class="attendance-tab @(_activeSession == session ? "attendance-tab-active" : "")"
+                            @onclick="() => _activeSession = session">
+                        @session
+                    </button>
+                }
+            </div>
+
+            @{
+                var attendees = Attendance.GetAttendees(_activeSession, _weekStart);
+                var grouped = Enum.GetValues<RunGroup>()
+                    .Select(g => (Group: g, Members: attendees.Where(a => a.Group == g).ToList()))
+                    .Where(x => x.Members.Count > 0)
+                    .ToList();
+            }
+
+            @if (!attendees.Any())
+            {
+                <p class="attendance-empty">No members have signed up for @_activeSession yet this week.</p>
+            }
+            else
+            {
+                <div class="attendance-groups">
+                    @foreach (var (group, groupMembers) in grouped)
+                    {
+                        var groupLeader   = Attendance.GetGroupLeader(_activeSession, _weekStart, group);
+                        var iAmLeading    = _leaderMember is not null && Attendance.IsLeading(_leaderMember.Id, _activeSession, _weekStart, group);
+
+                        <div class="attendance-group-card">
+                            <div class="attendance-group-header">
+                                <span class="attendance-group-name">@group.DisplayName()</span>
+                                <span class="attendance-group-count">@groupMembers.Count</span>
+                            </div>
+
+                            <div class="attendance-group-leader @(groupLeader is null ? "attendance-group-leader-tbc" : "attendance-group-leader-set")">
+                                @if (groupLeader is not null)
+                                {
+                                    <span class="attendance-leader-icon">🏅</span>
+                                    <span class="attendance-leader-name">@groupLeader.LeaderName</span>
+                                }
+                                else
+                                {
+                                    <span class="attendance-leader-icon">🏅</span>
+                                    <span class="attendance-leader-tbc">Leader TBC</span>
+                                }
+                            </div>
+
+                            @if (_isLeader)
+                            {
+                                <div class="attendance-leader-controls">
+                                    @if (!iAmLeading)
+                                    {
+                                        <button class="btn-lead-group" @onclick="() => VolunteerForGroup(group)">
+                                            Lead this group
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn-step-down" @onclick="() => StepDownFromGroup(group)">
+                                            Step down
+                                        </button>
+                                    }
+                                </div>
+                            }
+
+                            <ul class="attendance-member-list">
+                                @foreach (var record in groupMembers.OrderBy(m => m.MemberName))
+                                {
+                                    <li class="attendance-member-item">
+                                        <span class="attendance-member-icon">🏃</span>
+                                        @record.MemberName
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+                <p class="attendance-total">@attendees.Count total @(attendees.Count == 1 ? "member" : "members") signed up</p>
+            }
+        </div>
+    }
+
 </div>
+
+@code {
+    private static readonly string[] _sessions = ["Monday", "Wednesday", "Friday", "Sunday"];
+
+    private bool _isLeaderOrAbove;
+    private bool _isLeader;
+    private string _activeSession = "Wednesday";
+    private DateOnly _weekStart = AttendanceService.CurrentWeekStart();
+    private ClubMember? _leaderMember;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state    = await AuthProvider.GetAuthenticationStateAsync();
+        var role     = state.User.FindFirst(ClaimTypes.Role)?.Value;
+        var username = state.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        _isLeaderOrAbove = role is "Leader" or "Committee" or "Admin";
+        _isLeader        = role is "Leader" or "Admin";
+
+        if (username is not null)
+            _leaderMember = Members.GetByUsername(username);
+    }
+
+    private void VolunteerForGroup(RunGroup group)
+    {
+        if (_leaderMember is null) return;
+        Attendance.VolunteerAsLeader(_leaderMember.Id, _leaderMember.DisplayName, _activeSession, _weekStart, group);
+    }
+
+    private void StepDownFromGroup(RunGroup group)
+    {
+        if (_leaderMember is null) return;
+        Attendance.WithdrawLeader(_leaderMember.Id, _activeSession, _weekStart, group);
+    }
+}

@@ -7,10 +7,22 @@ public class DemoAuthService : AuthenticationStateProvider
 {
     private static readonly Dictionary<string, (string Password, string Role, string DisplayName)> Users = new()
     {
-        ["member"]    = ("demo", "Member",    "Alex Member"),
-        ["leader"]    = ("demo", "Leader",    "Sarah Connor"),
-        ["committee"] = ("demo", "Committee", "Priya Nair"),
-        ["admin"]     = ("demo", "Admin",     "James Murphy"),
+        ["member1"]    = ("demo", "Member",    "Alex Member"),
+        ["member2"]    = ("demo", "Member",    "Tom Briggs"),
+        ["member3"]    = ("demo", "Member",    "Chloe Walsh"),
+        ["member4"]    = ("demo", "Member",    "Ravi Patel"),
+        ["member5"]    = ("demo", "Member",    "Niamh Kelly"),
+        ["member6"]    = ("demo", "Member",    "Dan Foster"),
+        ["member7"]    = ("demo", "Member",    "Lucia Ferreira"),
+        ["member8"]    = ("demo", "Member",    "Owen Hughes"),
+        ["member9"]    = ("demo", "Member",    "Amara Osei"),
+        ["member10"]   = ("demo", "Member",    "Jack Tanner"),
+        ["leader1"]    = ("demo", "Leader",    "Sarah Connor"),
+        ["leader2"]    = ("demo", "Leader",    "Beth Cartwright"),
+        ["leader3"]    = ("demo", "Leader",    "Marcus Webb"),
+        ["committee1"] = ("demo", "Committee", "Priya Nair"),
+        ["committee2"] = ("demo", "Committee", "Diane Hollis"),
+        ["admin"]      = ("demo", "Admin",     "James Murphy"),
     };
 
     private ClaimsPrincipal _current = new(new ClaimsIdentity());
@@ -42,6 +54,6 @@ public class DemoAuthService : AuthenticationStateProvider
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
 
-    public static IReadOnlyList<(string Username, string Role)> DemoUsers =>
-        Users.Select(kvp => (kvp.Key, kvp.Value.Role)).ToList();
+    public static IReadOnlyList<(string Username, string Role, string DisplayName)> DemoUsers =>
+        Users.Select(kvp => (kvp.Key, kvp.Value.Role, kvp.Value.DisplayName)).ToList();
 }

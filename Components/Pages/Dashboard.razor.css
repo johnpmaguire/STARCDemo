@@ -120,6 +120,12 @@
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.session-card-attending {
+    border-color: rgba(110,231,160,0.45);
+    background: rgba(110,231,160,0.07);
 }
 
 .session-day {
@@ -135,6 +141,102 @@
 .session-detail {
     font-size: 0.82rem;
     opacity: 0.6;
+}
+
+.session-attendance-status {
+    margin-top: 0.4rem;
+}
+
+.session-attending-badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #6ee7a0;
+}
+
+.session-attendance-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.session-group-select {
+    width: 100%;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: #1e293b;
+    color: #f1f5f9;
+    font-size: 0.82rem;
+    cursor: pointer;
+}
+
+.session-group-select option {
+    background: #1e293b;
+    color: #f1f5f9;
+}
+
+.btn-attend {
+    width: 100%;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: #3b82f6;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+    .btn-attend:hover {
+        background: #2563eb;
+    }
+
+.btn-withdraw {
+    width: 100%;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+    .btn-withdraw:hover {
+        background: rgba(255,255,255,0.14);
+    }
+
+.session-count {
+    font-size: 0.75rem;
+    opacity: 0.45;
+    margin-top: 0.2rem;
+}
+
+/* ── Session card leader indicator ──────────────────────── */
+.session-card-leader {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-top: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.5rem;
+}
+
+.session-card-leader-set {
+    background: rgba(125,211,252,0.12);
+    color: #7dd3fc;
+}
+
+.session-card-leader-tbc {
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.35);
+    font-style: italic;
+    font-weight: 400;
 }
 
 /* ── Responsive ──────────────────────────────────────────── */

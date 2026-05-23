@@ -99,39 +99,173 @@
     text-decoration: underline;
 }
 
+/* ── Attendance board ────────────────────────────────────── */
+.attendance-session-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+}
+
+.attendance-tab {
+    padding: 0.35rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.07);
+    color: inherit;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+    .attendance-tab:hover {
+        background: rgba(255,255,255,0.13);
+    }
+
+.attendance-tab-active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: #fff;
+    font-weight: 700;
+}
+
+.attendance-empty {
+    opacity: 0.45;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.attendance-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.attendance-group-card {
     background: rgba(255,255,255,0.07);
     border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 1.25rem;
-    padding: 1.5rem;
-    max-width: 640px;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
 }
 
-.leaders-info-card p {
-    margin: 0 0 0.75rem 0;
-    opacity: 0.85;
-    line-height: 1.6;
-}
-
-.leaders-list {
-    list-style: disc;
-    padding-left: 1.4rem;
-    margin: 0 0 1rem 0;
+.attendance-group-header {
     display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    opacity: 0.8;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.attendance-group-name {
+    font-weight: 700;
     font-size: 0.95rem;
-}
-
-.leaders-contact {
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-.leaders-contact a {
     color: #7dd3fc;
 }
 
-.leaders-contact a:hover {
-    text-decoration: underline;
+.attendance-group-count {
+    background: rgba(125,211,252,0.15);
+    color: #7dd3fc;
+    font-size: 0.78rem;
+    font-weight: 700;
+    border-radius: 1rem;
+    padding: 0.1rem 0.55rem;
 }
+
+.attendance-member-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.attendance-member-item {
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0.85;
+}
+
+.attendance-member-icon {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.attendance-total {
+    font-size: 0.82rem;
+    opacity: 0.45;
+    margin: 0;
+}
+
+/* ── Group leader indicator ──────────────────────────────── */
+.attendance-group-leader {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.attendance-group-leader-set {
+    background: rgba(125,211,252,0.12);
+    color: #7dd3fc;
+}
+
+.attendance-group-leader-tbc {
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.3);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.attendance-leader-name {
+    font-weight: 700;
+}
+
+.attendance-leader-tbc {
+    font-weight: 400;
+}
+
+/* ── Lead / step-down buttons ────────────────────────────── */
+.attendance-leader-controls {
+    margin-bottom: 0.6rem;
+}
+
+.btn-lead-group {
+    width: 100%;
+    padding: 0.3rem 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: #16a34a;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+    .btn-lead-group:hover {
+        background: #15803d;
+    }
+
+.btn-step-down {
+    width: 100%;
+    padding: 0.3rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.07);
+    color: inherit;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+    .btn-step-down:hover {
+        background: rgba(255,255,255,0.13);
+    }

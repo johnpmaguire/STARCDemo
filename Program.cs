@@ -13,4 +13,5 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<DemoAuthService>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<DemoAuthService>());
 builder.Services.AddScoped<DemoMemberService>();
+builder.Services.AddSingleton<AttendanceService>();
 await builder.Build().RunAsync();
