@@ -140,6 +140,7 @@
 .gt-section {
     margin-top: 2rem;
     color: #fff;
+    scroll-margin-top: 1.5rem;
 }
 
 .gt-section-title {

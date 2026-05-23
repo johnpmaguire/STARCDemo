@@ -2,6 +2,7 @@
 @layout GuestLayout
 @attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
 @inject NavigationManager Nav
+@inject IJSRuntime JS
 
 <div class="gt-page">
     <div class="gt-wrapper">
@@ -22,7 +23,7 @@
                     @if (!showDetails)
                     {
                         <p class="gt-tagline">Why train with STARC.<br />Everyone welcome. No one left behind.</p>
-                        <button class="gt-cta" @onclick="RevealDetails">Learn more</button>
+                        <button class="gt-cta" @onclick="async () => await RevealDetails()">Learn more</button>
                     }
                 </div>
             </div>
@@ -31,7 +32,7 @@
         @if (showDetails)
         {
             <!-- What We Do -->
-            <section class="gt-section gt-reveal">
+            <section id="what-we-do" class="gt-section gt-reveal">
                 <h2 class="gt-section-title">What We Do</h2>
 
                 <div class="gt-tabs">
@@ -133,7 +134,13 @@
     private string activeTab = "beginners";
     private bool isTabFading = false;
 
-    private void RevealDetails() => showDetails = true;
+    private async Task RevealDetails()
+    {
+        showDetails = true;
+        StateHasChanged();
+        await Task.Delay(50); // allow DOM to render the section
+        await JS.InvokeVoidAsync("eval", "document.getElementById('what-we-do')?.scrollIntoView({behavior:'smooth',block:'start'})");
+    }
 
     private async Task SetTab(string tab)
     {
