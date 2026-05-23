@@ -1,0 +1,330 @@
+/* ── Page shell ─────────────────────────────────────────────
+   No backdrop-filter on pseudo-elements (iOS Safari bug).
+   Background image + overlay handled with stacked backgrounds.
+   No 100vh (iOS includes browser chrome). Use padding instead.
+──────────────────────────────────────────────────────────── */
+.gt-page {
+    background-image:
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url('images/GuestPageBg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    padding-bottom: 3rem;
+}
+
+/* ── Centred wrapper ──────────────────────────────────────── */
+.gt-wrapper {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem;
+    box-sizing: border-box;
+}
+
+/* ── Glass card helper ────────────────────────────────────── */
+.gt-hero-card,
+.gt-tabs,
+.gt-flip-front,
+.gt-flip-back {
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 1.5rem;
+}
+
+/* ── Hero card ────────────────────────────────────────────── */
+.gt-hero-card {
+    padding: 2rem 1.5rem;
+    color: #fff;
+    text-align: center;
+}
+
+    .gt-hero-card h1 {
+        margin: 0 0 1.25rem;
+        font-size: clamp(1.75rem, 5vw, 2.75rem);
+        font-weight: 700;
+    }
+
+.gt-badge {
+    display: block;
+    max-width: min(220px, 60%);
+    height: auto;
+    margin: 0 auto 1.5rem;
+}
+
+.gt-hero-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+    .gt-hero-body p {
+        margin: 0;
+        max-width: 52ch;
+        line-height: 1.65;
+        font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+    }
+
+    .gt-hero-body strong {
+        display: block;
+        font-size: clamp(1rem, 2.8vw, 1.15rem);
+        margin-bottom: 0.1rem;
+    }
+
+.gt-tagline {
+    margin-top: 0.25rem;
+    font-style: italic;
+    opacity: 0.9;
+    line-height: 1.7;
+}
+
+/* ── Shared CTA button / link ─────────────────────────────── */
+.gt-cta {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.7rem 2.25rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+    .gt-cta:hover,
+    .gt-cta:active {
+        background: #111;
+        color: #fff;
+    }
+
+/* ── Sections ─────────────────────────────────────────────── */
+.gt-section {
+    margin-top: 2rem;
+    color: #fff;
+}
+
+.gt-section-title {
+    color: #fff;
+    font-size: clamp(1.3rem, 4vw, 1.9rem);
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 1.25rem;
+}
+
+.gt-body-text {
+    text-align: center;
+    max-width: 60ch;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+}
+
+.gt-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+    .gt-list li {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+    }
+
+/* ── Reveal animation ─────────────────────────────────────── */
+.gt-reveal {
+    animation: gtFadeUp 0.45s ease both;
+}
+
+@keyframes gtFadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Tab bar ──────────────────────────────────────────────── */
+.gt-tabs {
+    overflow: hidden;
+}
+
+.gt-tab-bar {
+    display: flex;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+    .gt-tab-bar::-webkit-scrollbar { display: none; }
+
+.gt-tab-btn {
+    flex: 1 1 auto;
+    min-width: max-content;
+    padding: 0.9rem 1.25rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: rgba(255,255,255,0.65);
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    -webkit-appearance: none;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+    .gt-tab-btn:hover { color: #fff; }
+
+    .gt-tab-btn.gt-tab-active {
+        color: #fff;
+        border-bottom-color: #fff;
+        background: rgba(255,255,255,0.08);
+    }
+
+/* ── Tab panel ────────────────────────────────────────────── */
+.gt-tab-panel {
+    padding: 1.75rem 1.5rem;
+    color: #fff;
+    transition: opacity 0.25s ease;
+    opacity: 1;
+}
+
+    .gt-tab-panel h3 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.1rem, 3vw, 1.4rem);
+    }
+
+    .gt-tab-panel p {
+        margin: 0 0 0.65rem;
+        line-height: 1.7;
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        max-width: 65ch;
+    }
+
+.gt-fading { opacity: 0; }
+
+/* ── Leader grid ──────────────────────────────────────────── */
+.gt-leader-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.25rem;
+}
+
+/* ── Flip card ────────────────────────────────────────────── */
+.gt-flip-card {
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.gt-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s ease;
+}
+
+.gt-flip-card:hover .gt-flip-inner {
+    transform: rotateY(180deg);
+}
+
+.gt-flip-front,
+.gt-flip-back {
+    position: absolute;
+    inset: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1.25rem;
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: #fff;
+    text-align: center;
+}
+
+.gt-flip-back {
+    transform: rotateY(180deg);
+    justify-content: center;
+}
+
+.gt-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.4);
+}
+
+.gt-flip-front h3,
+.gt-flip-back h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.gt-role {
+    font-size: 0.82rem;
+    opacity: 0.75;
+    font-style: italic;
+    margin: 0;
+}
+
+.gt-bio {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0.5rem 0 0;
+}
+
+/* ── Back link ────────────────────────────────────────────── */
+.gt-back {
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 0 1rem;
+}
+
+/* ── Mobile ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .gt-hero-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .gt-tab-bar {
+        flex-direction: column;
+        border-bottom: none;
+        overflow-x: unset;
+    }
+
+    .gt-tab-btn {
+        width: 100%;
+        text-align: left;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        border-left: 3px solid transparent;
+        white-space: normal;
+    }
+
+        .gt-tab-btn.gt-tab-active {
+            border-bottom-color: rgba(255,255,255,0.1);
+            border-left-color: #fff;
+        }
+
+    .gt-tab-panel {
+        padding: 1.25rem 1rem;
+    }
+
+    .gt-leader-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
