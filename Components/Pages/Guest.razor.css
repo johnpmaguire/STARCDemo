@@ -7,7 +7,7 @@
 
 .guest-page::before {
     content: '';
-position: fixed;
+    position: absolute;
     inset: 0;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
@@ -177,10 +177,7 @@ section {
             max-width: 100%;
             word-break: break-word;
         }
-        #hero .hero-text p {
-            max-width: 100%;
-            word-break: break-word;
-        }
+}
 
 /* ── What We Do — Tab container ───────────────────────────── */
 .tab-container {
