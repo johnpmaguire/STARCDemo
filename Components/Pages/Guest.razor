@@ -1,115 +1,101 @@
-﻿@page "/guest"
+@page "/guest"
 @layout GuestLayout
 @attribute [Microsoft.AspNetCore.Authorization.AllowAnonymous]
 @inject NavigationManager Nav
 
-<div class="guest-page">
-    <div class="guest-page-wrapper">
+<div class="gt-page">
+    <div class="gt-wrapper">
 
-        <!-- Hero Section -->
-        <section id="hero">
-            <article class="hero-card">
-
+        <!-- Hero -->
+        <section class="gt-hero">
+            <div class="gt-hero-card">
                 <h1>Welcome to STARC</h1>
 
-                <div class="hero-badge">
-                    <img src="images/0-5k-badge.png" alt="STARC 0 to 5K Badge">
-                </div>
+                <img class="gt-badge" src="images/0-5k-badge.png" alt="STARC 0 to 5K Badge" />
 
-                <div class="hero-text">
-                    <p><span>From couch to confidence. </span>No matter your fitness level, our 0 to 5K plan is designed for anyone who wants to get moving at their own pace.</p>
-                    <p><span>Want to improve your fitness. </span>We offer both focused training and social runs. Meet new prople, make friends and enjoy being active.</p>
-
-                    <p><span>Signed up for a marathon. </span>Not sure where to start. </p>
-
+                <div class="gt-hero-body">
+                    <p><strong>From couch to confidence.</strong> No matter your fitness level, our 0 to 5K plan is designed for anyone who wants to get moving at their own pace.</p>
+                    <p><strong>Want to improve your fitness.</strong> We offer both focused training and social runs. Meet new people, make friends and enjoy being active.</p>
+                    <p><strong>Signed up for a marathon.</strong> Not sure where to start.</p>
                     <p>Join a network of runners who will welcome, guide, coach and cheer you on every step of your journey.</p>
+
                     @if (!showDetails)
                     {
-                        <div class="hero-tagline">
-                            <p>Train with STARC.</p>
-                            <p>Everyone welcome. No one left behind.</p>
-                        </div>
-                        <button class="cta" @onclick="RevealDetails">Learn more</button>
+                        <p class="gt-tagline">Train with STARC.<br />Everyone welcome. No one left behind.</p>
+                        <button class="gt-cta" @onclick="RevealDetails">Learn more</button>
                     }
                 </div>
-
-            </article>
+            </div>
         </section>
 
         @if (showDetails)
         {
             <!-- What We Do -->
-            <section id="what-we-do" class="reveal-section">
-                <h2 class="section-title">What We Do</h2>
+            <section class="gt-section gt-reveal">
+                <h2 class="gt-section-title">What We Do</h2>
 
-                <div class="tab-container">
-                    <div class="tab-bar" role="tablist">
+                <div class="gt-tabs">
+                    <div class="gt-tab-bar" role="tablist">
                         <button role="tab"
-                                class="tab-btn @(activeTab == "beginners" ? "active" : "")"
+                                class="gt-tab-btn @(activeTab == "beginners" ? "gt-tab-active" : "")"
                                 aria-selected="@(activeTab == "beginners")"
                                 @onclick='() => SetTab("beginners")'>
                             🏃 0–5K Beginners
                         </button>
                         <button role="tab"
-                                class="tab-btn @(activeTab == "club" ? "active" : "")"
+                                class="gt-tab-btn @(activeTab == "club" ? "gt-tab-active" : "")"
                                 aria-selected="@(activeTab == "club")"
                                 @onclick='() => SetTab("club")'>
                             🌙 Club Nights
                         </button>
                         <button role="tab"
-                                class="tab-btn @(activeTab == "events" ? "active" : "")"
+                                class="gt-tab-btn @(activeTab == "events" ? "gt-tab-active" : "")"
                                 aria-selected="@(activeTab == "events")"
                                 @onclick='() => SetTab("events")'>
                             🏅 Events &amp; Community
                         </button>
                     </div>
 
-                    <div class="tab-panel @(isTabFading ? "tab-fading" : "tab-visible")" role="tabpanel">
-
-                        <div class="tab-content @(activeTab == "beginners" ? "tab-active" : "tab-hidden")">
+                    <div class="gt-tab-panel @(isTabFading ? "gt-fading" : "")">
+                        @if (activeTab == "beginners")
+                        {
                             <h3>0–5K Beginners</h3>
                             <p>Start your journey with support and confidence. Our beginner programme is designed for anyone — no experience needed, no judgement, just encouragement.</p>
                             <p>More detail coming soon — training schedule, what to expect on your first night, and how to sign up.</p>
-                        </div>
-
-                        <div class="tab-content @(activeTab == "club" ? "tab-active" : "tab-hidden")">
+                        }
+                        else if (activeTab == "club")
+                        {
                             <h3>Club Nights</h3>
                             <p>Social runs for all abilities — relaxed and welcoming. Whether you are just finishing the 0–5K or you have been running for years, there is a group for you.</p>
                             <p>More detail coming soon — session times, routes, and what to bring.</p>
-                        </div>
-
-                        <div class="tab-content @(activeTab == "events" ? "tab-active" : "tab-hidden")">
+                        }
+                        else
+                        {
                             <h3>Events &amp; Community</h3>
                             <p>Races, socials, volunteering, and being part of something bigger. We enter local and national events together and celebrate every finish line.</p>
                             <p>More detail coming soon — upcoming events, parkrun, and how to get involved.</p>
-                        </div>
-
+                        }
                     </div>
                 </div>
             </section>
 
-            <!-- Back to Home -->
-            <div class="back-home">
-                <a href="@Nav.BaseUri" class="cta">← Back to Home</a>
-            </div>
-
-            <!-- Meet the Team — Option A: Flip Cards -->
-            <section id="team-flip" class="reveal-section">
-                <h2 class="section-title">Meet the Team — Flip Cards</h2>
-                <div class="leader-cards">
+            <!-- Meet the Team — Flip Cards -->
+            <section class="gt-section gt-reveal">
+                <h2 class="gt-section-title">Meet the Team</h2>
+                <div class="gt-leader-grid">
                     @foreach (var leader in leaders)
                     {
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <img src="@leader.ImageUrl" alt="@leader.Name" />
+                        <div class="gt-flip-card">
+                            <div class="gt-flip-inner">
+                                <div class="gt-flip-front">
+                                    <img src="@leader.ImageUrl" alt="@leader.Name" class="gt-avatar" />
                                     <h3>@leader.Name</h3>
-                                    <p class="leader-role">@leader.Role</p>
+                                    <p class="gt-role">@leader.Role</p>
                                 </div>
-                                <div class="flip-card-back">
+                                <div class="gt-flip-back">
                                     <h3>@leader.Name</h3>
-                                    <p class="leader-role">@leader.Role</p>
-                                    <p class="leader-bio">@leader.ShortBio</p>
+                                    <p class="gt-role">@leader.Role</p>
+                                    <p class="gt-bio">@leader.ShortBio</p>
                                 </div>
                             </div>
                         </div>
@@ -117,41 +103,10 @@
                 </div>
             </section>
 
-          
-
-            <!-- Meet the Team — Option B: Cards + Modal -->
-            <section id="team-modal" class="reveal-section">
-                <h2 class="section-title">Meet the Team — Modal</h2>
-                <div class="leader-cards">
-                    @foreach (var leader in leaders)
-                    {
-                        <div class="leader-card" @onclick="() => OpenLeader(leader)">
-                            <img src="@leader.ImageUrl" alt="@leader.Name" />
-                            <h3>@leader.Name</h3>
-                            <p class="leader-role">@leader.Role</p>
-                            <span class="leader-more">Learn more</span>
-                        </div>
-                    }
-                </div>
-            </section>
-
-            @if (selectedLeader is not null)
-            {
-                <div class="leader-modal-backdrop" @onclick="CloseLeader">
-                    <div class="leader-modal" @onclick:stopPropagation="true">
-                        <button class="leader-modal-close" @onclick="CloseLeader">✕</button>
-                        <img src="@selectedLeader.ImageUrl" alt="@selectedLeader.Name" />
-                        <h3>@selectedLeader.Name</h3>
-                        <p class="leader-role">@selectedLeader.Role</p>
-                        <p class="leader-bio">@selectedLeader.FullBio</p>
-                    </div>
-                </div>
-            }
-
             <!-- Training Overview -->
-            <section id="training" class="reveal-section">
-                <h2 class="section-title">Training Overview</h2>
-                <ul>
+            <section class="gt-section gt-reveal">
+                <h2 class="gt-section-title">Training Overview</h2>
+                <ul class="gt-list">
                     <li>Monday — Social Run</li>
                     <li>Wednesday — Straight Run</li>
                     <li>Friday — Intervals</li>
@@ -160,64 +115,47 @@
             </section>
 
             <!-- Why Run With Us -->
-            <section id="why-run" class="reveal-section">
-                <h2 class="section-title">Why Run With Us</h2>
-                <p>We are a friendly, supportive community that helps you build confidence, strength, and a love for running — no matter where you start.</p>
+            <section class="gt-section gt-reveal">
+                <h2 class="gt-section-title">Why Run With Us</h2>
+                <p class="gt-body-text">We are a friendly, supportive community that helps you build confidence, strength, and a love for running — no matter where you start.</p>
             </section>
 
-            <!-- Back to Home -->
-            <div class="back-home">
-                <a href="@Nav.BaseUri" class="cta">← Back to Home</a>
+            <div class="gt-back">
+                <a href="@Nav.BaseUri" class="gt-cta">← Back to Home</a>
             </div>
         }
+
     </div>
 </div>
 
-
-
 @code {
+    private bool showDetails = false;
     private string activeTab = "beginners";
     private bool isTabFading = false;
+
+    private void RevealDetails() => showDetails = true;
 
     private async Task SetTab(string tab)
     {
         if (activeTab == tab) return;
-
         isTabFading = true;
         StateHasChanged();
-        await Task.Delay(400);
-
+        await Task.Delay(250);
         activeTab = tab;
         isTabFading = false;
         StateHasChanged();
     }
 
-    private bool showDetails = false;
-    private void RevealDetails() => showDetails = true;
-
-    // ── Team ────────────────────────────────────────────────
-    private record LeaderModel(
-        string Name,
-        string Role,
-        string ImageUrl,
-        string ShortBio,
-        string FullBio
-    );
-
-    private LeaderModel? selectedLeader;
-    private void OpenLeader(LeaderModel leader) => selectedLeader = leader;
-    private void CloseLeader() => selectedLeader = null;
+    private record LeaderModel(string Name, string Role, string ImageUrl, string ShortBio, string FullBio);
 
     private readonly List<LeaderModel> leaders =
     [
         new("Sarah Connor", "Head Coach", "/images/team/sarah.jpg",
             "10 years coaching, marathon finisher, loves a muddy trail.",
-            "Sarah has been coaching with STARC for 10 years. A multiple marathon finisher and ultrarunner, she is passionate about getting beginners off the couch and across finish lines. She leads the 0–5K programme and club nights on Wednesday."),
-
+            "Sarah has been coaching with STARC for 10 years. A multiple marathon finisher and ultrarunner, she is passionate about getting beginners off the couch and across finish lines."),
         new("James Murphy", "0–5K Lead", "/images/team/james.png",
             "Couch to 5K graduate turned coach. Your biggest cheerleader.",
-            "James started exactly where you are now — nervous, unfit, and unsure. He completed the 0–5K programme four years ago and never looked back. Now he leads it himself, bringing warmth and patience to every session."),
-
+            "James started exactly where you are now — nervous, unfit, and unsure. He completed the 0–5K programme four years ago and never looked back."),
         new("Priya Nair", "Events Coordinator", "/images/team/priya.jpg",
             "Organises all club events and races. Spreadsheet wizard.",
             "Priya keeps STARC's social and race calendar running like clockwork. From local parkruns to national marathons, she coordinates entries, logistics, and the all-important post-race celebrations."),
